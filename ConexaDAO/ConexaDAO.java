@@ -1,3 +1,16 @@
+package ConexaDAO;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 public class ConexaDAO {
     private static final String URL = "jdbc:mysql://localhost:3306/DB";
     private static final String USER = "root";
@@ -43,5 +56,4 @@ public class ConexaDAO {
         }
     }
 
-    
 }
