@@ -204,10 +204,68 @@ public class Voo {
     }
 
     //Update
+    public void update(Voo voo) {
+        this.numero = voo.numero;
+        this.data = voo.data;
+        this.hora = voo.hora;
+        this.origem = voo.origem;
+        this.destino = voo.destino;
+        this.piloto = voo.piloto;
+        this.copiloto = voo.copiloto;
+        this.observacao = voo.observacao;
+        this.idPista = voo.idPista;
+        this.idAviao = voo.idAviao;
+        this.idHelicoptero = voo.idHelicoptero;
+        this.idJato = voo.idJato;
+    }
 
     //Delete
+    public void delete() {
+        this.numero = null;
+        this.data = null;
+        this.hora = null;
+        this.origem = null;
+        this.destino = null;
+        this.piloto = null;
+        this.copiloto = null;
+        this.observacao = null;
+        this.idPista = 0;
+        this.idAviao = 0;
+        this.idHelicoptero = 0;
+        this.idJato = 0;
+    }
 
     //GetById
+    public static Voo getById(int id) {
+        Voo voo = null;
+        try {
+            Connection conn = ConnectionFactory.getConnection();
+            String sql = "SELECT * FROM voo WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                voo = new Voo();
+                voo.setId(rs.getInt("id"));
+                voo.setNumero(rs.getString("numero"));
+                voo.setData(rs.getString("data"));
+                voo.setHora(rs.getString("hora"));
+                voo.setOrigem(rs.getString("origem"));
+                voo.setDestino(rs.getString("destino"));
+                voo.setPiloto(rs.getString("piloto"));
+                voo.setCopiloto(rs.getString("copiloto"));
+                voo.setObservacao(rs.getString("observacao"));
+                voo.setIdPista(rs.getInt("idPista"));
+                voo.setIdAviao(rs.getInt("idAviao"));
+                voo.setIdHelicoptero(rs.getInt("idHelicoptero"));
+                voo.setIdJato(rs.getInt("idJato"));
+            }
+            ConnectionFactory.closeConnection(conn, ps, rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(Voo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return voo;
+    }
 
     //GetAll
 }
