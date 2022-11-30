@@ -13,60 +13,27 @@ import java.util.logging.Logger;
 
 public class ConexaDAO {
 
-    private Connection conexao;
+    private Connection con;
     
-    public ConexaDAO() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conexao = DriverManager.getConnection("jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com:3306/aeroporto", "admin", "admin123");
-
-   // private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com:3306/aeroporto";
-    private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com/aeroporto";
+    private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com:3306/aeroporto";
+    //private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com/aeroporto";
     private static final String USER = "admin";
     private static final String PASS = "jussan123";
 
-    private static final String SCHEMA = "aeroporto";
-
-    public static Connection getConnection() {
+    public ConexaDAO() {
         try {
-            return DriverManager.getConnection(URL, USER, PASS);
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(URL, USER, PASS);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConexaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void close() {
+        try {
+            con.close();
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro na conexão com o Banco de dados: ", ex);
-        }
-    }
-
-    //Método para fechar a conexão com o banco de dados
-    public static void closeConnection(Connection conexao) {
-        if (conexao != null) {
-            try {
-                conexao.close();
-            } catch (SQLException ex) {
-                System.err.println("Erro: " + ex);
-            }
-        }
-    }
-
-    //Método para fechar a conexão com o banco de dados
-    public static void closeConnection(Connection conexao, PreparedStatement declara) {
-        closeConnection(conexao);
-        if (declara != null) {
-            try {
-                declara.close();
-            } catch (SQLException ex) {
-                System.err.println("Erro: " + ex);
-            }
-        }
-    }
-
-    //Método para fechar a conexão com o banco de dados
-    public static void closeConnection(Connection conexao, PreparedStatement declara, ResultSet retornoSet) {
-        closeConnection(conexao, declara);
-        if (retornoSet != null) {
-            try {
-                retornoSet.close();
-            } catch (SQLException ex) {
-                System.err.println("Erro: " + ex);
-            }
+            Logger.getLogger(ConexaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
