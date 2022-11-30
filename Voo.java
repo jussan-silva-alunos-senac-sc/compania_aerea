@@ -268,4 +268,33 @@ public class Voo {
     }
 
     //GetAll
+    public static Voo GetAll() {
+        Voo voo = null;
+        try {
+            Connection conn = ConnectionFactory.getConnection();
+            String sql = "SELECT * FROM voo";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                voo = new Voo();
+                voo.setId(rs.getInt("id"));
+                voo.setNumero(rs.getString("numero"));
+                voo.setData(rs.getString("data"));
+                voo.setHora(rs.getString("hora"));
+                voo.setOrigem(rs.getString("origem"));
+                voo.setDestino(rs.getString("destino"));
+                voo.setPiloto(rs.getString("piloto"));
+                voo.setCopiloto(rs.getString("copiloto"));
+                voo.setObservacao(rs.getString("observacao"));
+                voo.setIdPista(rs.getInt("idPista"));
+                voo.setIdAviao(rs.getInt("idAviao"));
+                voo.setIdHelicoptero(rs.getInt("idHelicoptero"));
+                voo.setIdJato(rs.getInt("idJato"));
+            }
+            ConnectionFactory.closeConnection(conn, ps, rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(Voo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return voo;
+    }
 }

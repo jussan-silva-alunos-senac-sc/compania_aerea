@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public class ConexaDAO {
 
-    private Connection con;
+    private Connection conn;
     
     private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com:3306/aeroporto";
     //private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com/aeroporto";
@@ -23,7 +23,7 @@ public class ConexaDAO {
     public ConexaDAO() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(URL, USER, PASS);
+            conn = DriverManager.getConnection(URL, USER, PASS);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ConexaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -31,7 +31,7 @@ public class ConexaDAO {
 
     public void close() {
         try {
-            con.close();
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConexaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
