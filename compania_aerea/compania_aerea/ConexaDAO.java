@@ -8,13 +8,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-
-
 public class ConexaDAO {
-    private static final String URL = "awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com";
-    private static final String USER = "admin";
-    private static final String PASS = "jussan123";
+    private static final String URL = "jdbc:mysql://localhost:3306/DB";
+    private static final String USER = "root";
+    private static final String PASS = "";
 
     public static Connection getConnection() {
         try {
