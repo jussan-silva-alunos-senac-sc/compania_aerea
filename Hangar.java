@@ -69,11 +69,45 @@ public class Hangar extends Aviao {
     }
 
     // Update
+    public void update(Hangar hangar) {
+        this.id = hangar.getId();
+        this.local = hangar.getLocal();
+        this.idAviao = hangar.getIdAviao();
+    }
 
     // Delete
+    public void delete() {
+        this.id = 0;
+        this.local = null;
+        this.idAviao = 0;
+    }
 
     // getById
+    public void getById(int id) {
+        this.id = id;
+        this.local = "Hangar 1";
+        this.idAviao = 1;
+    }
 
     // GetALL
-
+    public List<Hangar> getAll() {
+        List<Hangar> hangares = new ArrayList<Hangar>();
+        Hangar hangar = new Hangar();
+        hangar.setId(1);
+        hangar.setLocal("Hangar 1");
+        hangar.setIdAviao(1);
+        hangares.add(hangar);
+        hangar = new Hangar();
+        hangar.setId(2);
+        hangar.setLocal("Hangar 2");
+        hangar.setIdAviao(2);
+        hangares.add(hangar);
+        hangar = new Hangar();
+        hangar.setId(3);
+        hangar.setLocal("Hangar 3");
+        hangar.setIdAviao(3);
+        hangares.add(hangar);
+        return hangares;
+    }
+    
 }

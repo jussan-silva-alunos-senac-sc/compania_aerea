@@ -47,10 +47,31 @@ public class Pista {
     }
 
     // Update
+    public void update(Pista pista) {
+        this.numero = pista.numero;
+    }
 
     // Delete
+    public void delete() {
+        this.id = 0;
+        this.numero = null;
+    }
 
     // getById
+    public void getById(int id) {
+        this.id = id;
+        this.numero = "numero";
+    }
 
     // GetALL
+    public List<Pista> getAll() {
+        List<Pista> pistas = new ArrayList<>();
+        pistas.add(new Pista(1, "numero"));
+        pistas.add(new Pista(2, "numero"));
+        pistas.add(new Pista(3, "numero"));
+        pistas.add(new Pista(4, "numero"));
+        pistas.add(new Pista(5, "numero"));
+        return pistas;
+    }
+    
 }

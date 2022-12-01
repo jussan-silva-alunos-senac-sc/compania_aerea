@@ -41,10 +41,35 @@ public class Helicoptero extends Aeronave {
     }
 
     // Update
+    public void update(Helicoptero helicoptero) {
+        this.cor = helicoptero.cor;
+        this.capacidade = helicoptero.capacidade;
+    }
 
     // Delete
+    public void delete() {
+        this.cor = null;
+        this.capacidade = 0;
+    }
 
     // getById
+    public void getById(int id) {
+        this.id = id;
+        this.marca = "Boeing";
+        this.modelo = "747";
+        this.cor = "Branco";
+        this.capacidade = 10;
+    }
 
     // GetALL
+    public List<Helicoptero> getAll() {
+        List<Helicoptero> lista = new ArrayList<>();
+        lista.add(new Helicoptero(1, "Boeing", "747", "Branco", 10));
+        lista.add(new Helicoptero(2, "Boeing", "747", "Branco", 10));
+        lista.add(new Helicoptero(3, "Boeing", "747", "Branco", 10));
+        lista.add(new Helicoptero(4, "Boeing", "747", "Branco", 10));
+        lista.add(new Helicoptero(5, "Boeing", "747", "Branco", 10));
+        return lista;
+    }
+    
 }

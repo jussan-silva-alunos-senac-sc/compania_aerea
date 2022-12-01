@@ -279,20 +279,45 @@ public class Gerenciamento {
 
         public static void alterarAeronave(Scanner scann) {
             System.out.println("Alterar Aeronave!");
-            System.out.println("Digite o id da Aeronave: ");
-            int id = scann.nextInt();
-            System.out.println("Digite a marca da Aeronave: ");
-            String marca = scann.next();
-            System.out.println("Digite o modelo da Aeronave: ");
-            String modelo = scann.next();
-            System.out.println("Digite o prefixo da Aeronave: ");
-            String prefixo = scann.next();
-            System.out.println("Digite a capacidade da Aeronave: ");
-            int capacidade = scann.nextInt();
-            System.out.println("Digite o id da Companhia Aérea: ");
-            int idCompanhia = scann.nextInt();
-            Aeronave aeronave = new Aeronave(id, marca, modelo, prefixo, capacidade, idCompanhia);
-            AeronaveDAO.alterar(aeronave);
+            System.out.println("Digite o tipo da Aeronave: ");
+            String tipo = scann.next();
+            switch (tipo) {
+                case "H":
+                    System.out.println("Digite o id da Aeronave: ");
+                    int id = scann.nextInt();
+                    System.out.println("Digite a marca do Helicóptero: ");
+                    String marca = scann.next();
+                    System.out.println("Digite o modelo do Helicóptero: ");
+                    String modelo = scann.next();
+                    System.out.println("Digite o prefixo do Helicóptero: ");
+                    String prefixo = scann.next();
+                    System.out.println("Digite a capacidade do Helicóptero: ");
+                    int capacidade = scann.nextInt();
+                    System.out.println("Digite o id da Companhia Aérea: ");
+                    int idCompanhia = scann.nextInt();
+                    Helicoptero helicoptero = new Helicoptero(id, marca, modelo, prefixo, capacidade, idCompanhia);
+                    AeronaveDAO.alterar(helicoptero);
+                    break;
+                case "J":
+                    System.out.println("Digite o id da Aeronave: ");
+                    int id = scann.nextInt();
+                    System.out.println("Digite a marca do Jato: ");
+                    String marca = scann.next();
+                    System.out.println("Digite o modelo do Jato: ");
+                    String modelo = scann.next();
+                    System.out.println("Digite o prefixo do Jato: ");
+                    String prefixo = scann.next();
+                    System.out.println("Digite a capacidade do Jato: ");
+                    int capacidade = scann.nextInt();
+                    System.out.println("Digite o id da Companhia Aérea: ");
+                    int idCompanhia = scann.nextInt();
+                    Jato jato = new Jato(id, marca, modelo, prefixo, capacidade, idCompanhia);
+                    AeronaveDAO.alterar(jato);
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
         }
 
         public static void alterarHangar(Scanner scann) {

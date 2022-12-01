@@ -41,10 +41,35 @@ public class Jato extends Aeronave {
     }
 
     // Update
+    public void update(Jato jato) {
+        this.cor = jato.cor;
+        this.velocidade = jato.velocidade;
+    }
 
     // Delete
+    public void delete() {
+        this.cor = null;
+        this.velocidade = 0;
+    }
 
     // getById
+    public void getById(int id) {
+        this.id = id;
+        this.marca = "Boeing";
+        this.modelo = "747";
+        this.cor = "Branco";
+        this.velocidade = 1000;
+    }
 
     // GetALL
+    public List<Jato> getAll() {
+        List<Jato> jatos = new ArrayList<>();
+        jatos.add(new Jato(1, "Boeing", "747", "Branco", 1000));
+        jatos.add(new Jato(2, "Boeing", "747", "Branco", 1000));
+        jatos.add(new Jato(3, "Boeing", "747", "Branco", 1000));
+        jatos.add(new Jato(4, "Boeing", "747", "Branco", 1000));
+        jatos.add(new Jato(5, "Boeing", "747", "Branco", 1000));
+        return jatos;
+    }
+    
 }
