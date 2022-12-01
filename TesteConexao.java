@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 public class TesteConexao {
     public static void main(String[] args) {
         try {
-            Connection con = ConexaoDAO.getConnect();
+            Connection con = DAO.getConnect();
             ResultSet rs = con.createStatement().executeQuery("SELECT * FROM aviao;");
             while(rs.next()) {
                 System.out.println(rs.getString("id"));
