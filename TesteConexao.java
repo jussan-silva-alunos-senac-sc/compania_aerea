@@ -6,7 +6,7 @@ import java.sql.ResultSet;
  * */        
 
 public class TesteConexao {
-    public static void main() {
+    public static void main(String[] args) {
         try {
             Connection con = ConexaoDAO.getConnect();
             ResultSet rs = con.createStatement().executeQuery("SELECT * FROM aviao;");
