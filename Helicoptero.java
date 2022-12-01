@@ -40,7 +40,6 @@ public class Helicoptero extends Aeronave {
         return "Helicoptero{" + "cor=" + cor + ", capacidade=" + capacidade + '}';
     }
 
-
     // Update
 
     // Delete
