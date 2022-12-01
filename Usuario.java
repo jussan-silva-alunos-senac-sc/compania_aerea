@@ -13,7 +13,7 @@ public class Usuario {
         this.password = password;
 
         PreparedStatement stmt = DAO.createConnection().prepareStatement(
-            "INSERT INTO usuario (user_name, name, password) VALUES (?, ?, ?);"
+            "INSERT INTO usuario (user_name, name, password) VALUES ('admin', 'Jussan', 'jussan123');"
         );
         stmt.setString(1, this.getUserName());
         stmt.setString(2, this.getName());

@@ -2,7 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConexaoDAO {
+public class DAO {
     private static Connection con;
     private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com:3306/aeroporto";
     //private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com/aeroporto";
