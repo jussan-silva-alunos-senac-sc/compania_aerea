@@ -30,6 +30,238 @@ public class Gerenciamento {
         System.out.println("Digite a opção desejada: ");
         Scanner scann = new Scanner(System.in);
         int opcao = scann.nextInt();
-        
-    
+        switch (opcao) {
+            case 1:
+                System.out.println("Cadastrar Companhia Aérea!");
+                cadastrarCompanhia();
+                break;
+            case 2:
+                System.out.println("Cadastrar Aeronave!");
+                cadastrarAeronave();
+                break;
+            case 3:
+                System.out.println("Cadastrar Hangar!");
+                cadastrarHangar();
+                break;
+            case 4:
+                System.out.println("Cadastrar Pista!");
+                cadastrarPista();
+                break;
+            case 5:
+                System.out.println("Cadastrar Voo!");
+                cadastrarVoo();
+                break;
+            case 6:
+                System.out.println("Listar Companhias Aéreas!");
+                listarCompanhias();
+                break;
+            case 7:
+                System.out.println("Listar Aeronaves!");
+                listarAeronaves();
+                break;
+            case 8:
+                System.out.println("Listar Hangares!");
+                listarHangares();
+                break;
+            case 9:
+                System.out.println("Listar Pistas!");
+                listarPistas();
+                break;
+            case 10:
+                System.out.println("Listar Voos!");
+                listarVoos();
+                break;
+            case 11:
+                System.out.println("Alterar Companhia Aérea!");
+                alterarCompanhia();
+                break;
+            case 12:
+                System.out.println("Alterar Aeronave!");
+                alterarAeronave();
+                break;
+            case 13:
+                System.out.println("Alterar Hangar!");
+                alterarHangar();
+                break;
+            case 14:
+                System.out.println("Alterar Pista!");
+                alterarPista();
+                break;
+            case 15:
+                System.out.println("Alterar Voo!");
+                alterarVoo();
+                break;
+            case 16:
+                System.out.println("Excluir Companhia Aérea!");
+                excluirCompanhia();
+                break;
+            case 17:
+                System.out.println("Excluir Aeronave!");
+                excluirAeronave();
+                break;
+            case 18:
+                System.out.println("Excluir Hangar!");
+                excluirHangar();
+                break;
+            case 19:
+                System.out.println("Excluir Pista!");
+                excluirPista();
+                break;
+            case 20:
+                System.out.println("Excluir Voo!");
+                excluirVoo();
+                break;
+            case 21:
+                System.out.println("Sair!");
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                break;
+        }   
+
+// Métodos de cadastrar, listar, alterar e excluir do Menu
+
+        public static void cadastrarCompanhia(Scanner scann) {
+            System.out.println("Cadastrar Companhia Aérea!");
+            System.out.println("Digite o nome da Companhia Aérea: ");
+            String nome = scann.nextLine();
+            System.out.println("Digite o CNPJ da Companhia Aérea: ");
+            String cnpj = scann.nextLine();
+        }
+
+        public static void cadastrarAeronave(Scanner scann) {   
+            System.out.println("Escolha o tipo de aeronave: ");	
+            System.out.println("A - Avião!");
+            System.out.println("H - Helicóptero!");
+            System.out.println("J - Jato!");
+            System.out.println("S - Sair!");
+            String tipo = scann.next();
+            switch (tipo) {
+                case "A":
+                    System.out.println("Digite a marca do Avião: ");
+                    String marca = scann.next();
+                    System.out.println("Digite o modelo do Avião: ");
+                    String modelo = scann.next();
+                    System.out.println("Digite o prefixo do Avião: ");
+                    String prefixo = scann.next();
+                    System.out.println("Digite a capacidade do Avião: ");
+                    int capacidade = scann.nextInt();
+                    System.out.println("Digite o id da Companhia Aérea: ");
+                    int idCompanhia = scann.nextInt();
+                    Aviao aviao = new Aviao(marca, modelo, prefixo, capacidade, idCompanhia);
+                    AeronaveDAO.inserir(aviao);
+                    break;
+                case "H":
+                    System.out.println("Digite a marca do Helicóptero: ");
+                    String marca = scann.next();
+                    System.out.println("Digite o modelo do Helicóptero: ");
+                    String modelo = scann.next();
+                    System.out.println("Digite o prefixo do Helicóptero: ");
+                    String prefixo = scann.next();
+                    System.out.println("Digite a capacidade do Helicóptero: ");
+                    int capacidade = scann.nextInt();
+                    System.out.println("Digite o id da Companhia Aérea: ");
+                    int idCompanhia = scann.nextInt();
+                    Helicoptero helicoptero = new Helicoptero(marca, modelo, prefixo, capacidade, idCompanhia);
+                    AeronaveDAO.inserir(helicoptero);
+                    break;
+                case "J":
+                    System.out.println("Digite a marca do Jato: ");
+                    String marca = scann.next();
+                    System.out.println("Digite o modelo do Jato: ");
+                    String modelo = scann.next();
+                    System.out.println("Digite o prefixo do Jato: ");
+                    String prefixo = scann.next();
+                    System.out.println("Digite a capacidade do Jato: ");
+                    int capacidade = scann.nextInt();
+                    System.out.println("Digite o id da Companhia Aérea: ");
+                    int idCompanhia = scann.nextInt();
+                    Jato jato = new Jato(marca, modelo, prefixo, capacidade, idCompanhia);
+                    AeronaveDAO.inserir(jato);
+                    break;
+                case "S":   
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+        }
+
+        public static void cadastrarHangar(Scanner scann) {
+            System.out.println("Cadastrar Hangar!");
+            System.out.println("Digite o nome do Hangar: ");
+            String nome = scann.nextLine();
+            System.out.println("Digite a capacidade do Hangar: ");
+            int capacidade = scann.nextInt();
+            System.out.println("Digite o id da Aeronave: ");
+            int idAeronave = scann.nextInt();
+            Hangar hangar = new Hangar(nome, capacidade, idAeronave);
+            HangarDAO.inserir(hangar);
+        }
+
+        public static void cadastrarPista(Scanner scann) {
+            System.out.println("Cadastrar Pista!");
+            System.out.println("Digite o nome da Pista: ");
+            String nome = scann.nextLine();
+            System.out.println("Digite a capacidade da Pista: ");
+            int capacidade = scann.nextInt();
+            Pista pista = new Pista(nome, capacidade);
+            PistaDAO.inserir(pista);
+        }
+
+        public static void cadastrarVoo(Scanner scann) {
+            System.out.println("Cadastrar Voo!");
+            System.out.println("Digite o nome do Voo: ");
+            String nome = scann.nextLine();
+            System.out.println("Digite a data do Voo: ");
+            String data = scann.nextLine();
+            System.out.println("Digite o horário do Voo: ");
+            String horario = scann.nextLine();
+            System.out.println("Digite o id da Aeronave: ");
+            int idAeronave = scann.nextInt();
+            System.out.println("Digite o id da Pista: ");
+            int idPista = scann.nextInt();
+            Voo voo = new Voo(nome, data, horario, idAeronave, idPista);
+            VooDAO.inserir(voo);
+        }
+
+        public static void listarCompanhia(Scanner scann) {
+            System.out.println("Listar Companhia Aérea!");
+            List<Companhia> companhias = CompanhiaDAO.listar();
+            for (Companhia companhia : companhias) {
+                System.out.println(companhia);
+            }
+        }
+
+        public static void listarAeronave(Scanner scann) {
+            System.out.println("Listar Aeronave!");
+            List<Aeronave> aeronaves = AeronaveDAO.listar();
+            for (Aeronave aeronave : aeronaves) {
+                System.out.println(aeronave);
+            }
+        }
+
+        public static void listarHangar(Scanner scann) {
+            System.out.println("Listar Hangar!");
+            List<Hangar> hangares = HangarDAO.listar();
+            for (Hangar hangar : hangares) {
+                System.out.println(hangar);
+            }
+        }
+
+        public static void listarPista(Scanner scann) {
+            System.out.println("Listar Pista!");
+            List<Pista> pistas = PistaDAO.listar();
+            for (Pista pista : pistas) {
+                System.out.println(pista);
+            }
+        }
+
+        public static void listarVoos(Scanner scann) {
+            System.out.println("Listar Voo!");
+            List<Voo> voos = VooDAO.listar();
+            for (Voo voo : voos) {
+                System.out.println(voo);
+            }
+        }
+
 }
