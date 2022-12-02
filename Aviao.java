@@ -12,6 +12,7 @@ public class Aviao extends Aeronave {
         this.prefixo = prefixo;
         this.capacidade = capacidade;
         this.idCompanhia = idCompanhia;
+    
     }
 
     Aviao(String marca, String modelo, String prefixo, int capacidade, int idCompanhia) {

@@ -12,14 +12,14 @@ public class Usuario {
         this.name = name;
         this.password = password;
 
-        PreparedStatement stmt = DAO.createConnection().prepareStatement(
-            "INSERT INTO usuario (user_name, name, password) VALUES ('admin', 'Jussan', 'jussan123');"
-        );
-        stmt.setString(1, this.getUserName());
-        stmt.setString(2, this.getName());
-        stmt.setString(3, this.getPassword());
-        stmt.execute();
-        DAO.closeConnection();
+       PreparedStatement stmt = DAO.createConnection().prepareStatement(
+           "INSERT INTO usuario (user_name, name, password) VALUES ('admin', 'Jussan', 'jussan123');"
+       );
+       stmt.setString(1, this.getUserName());
+       stmt.setString(2, this.getName());
+       stmt.setString(3, this.getPassword());
+       stmt.execute();
+       DAO.closeConnection();
     }
 
     public Usuario(int id, String userName, String name, String password) {

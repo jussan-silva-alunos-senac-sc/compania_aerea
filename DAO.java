@@ -1,10 +1,11 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.mariadb.jdbc.*;
 
 public class DAO {
     private static Connection con;
-    private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com:3306/aeroporto";
+    private static final String URL = "jdbc:mariadb://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com:3306/aeroporto";
     //private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com/aeroporto";
     private static final String USER = "admin";
     private static final String PASS = "jussan123";
@@ -12,7 +13,7 @@ public class DAO {
     // método para obter a conexão
     public static Connection getConnect() throws SQLException {
         if(con == null || con.isClosed()) {
-            con = DriverManager.getConnection(URL, USER, PASS);
+                con = DriverManager.getConnection(URL, USER, PASS);
         }
         return con;
     }
@@ -22,5 +23,7 @@ public class DAO {
         getConnect().close();
         
     }
+
+
 
 }

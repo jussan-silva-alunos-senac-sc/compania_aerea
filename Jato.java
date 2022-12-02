@@ -51,6 +51,7 @@ public class Jato extends Aeronave {
         this.cor = null;
         this.velocidade = 0;
     }
+    
 
     // getById
     public void getById(int id) {
