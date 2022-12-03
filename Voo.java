@@ -1,4 +1,4 @@
-public class Voo {
+public class Voo extends DAO {
     private int id;
     private String numero;
     private String data;
@@ -10,17 +10,16 @@ public class Voo {
     private String observacao;
     private int idPista;
     private Pista pista;
-    private int idAviao;
+    private int idAeronave;
+    private Aeronave Aeronave;
     private Aviao aviao;
-    private int idHelicoptero;
     private Helicoptero helicoptero;
-    private int idJato;
     private Jato jato;
 
     Voo() {
     }
 
-    Voo(int id, String numero, String data, String hora, String origem, String destino, String piloto, String copiloto, String observacao, int idPista, int idAviao, int idHelicoptero, int idJato) {
+    Voo(int id, String numero, String data, String hora, String origem, String destino, String piloto, String copiloto, String observacao, int idPista, int idAeronave) {
         this.id = id;
         this.numero = numero;
         this.data = data;
@@ -31,12 +30,11 @@ public class Voo {
         this.copiloto = copiloto;
         this.observacao = observacao;
         this.idPista = idPista;
-        this.idAviao = idAviao;
-        this.idHelicoptero = idHelicoptero;
-        this.idJato = idJato;
+        this.idAeronave = idAeronave;
+ 
     }
 
-    Voo(String numero, String data, String hora, String origem, String destino, String piloto, String copiloto, String observacao, int idPista, int idAviao, int idHelicoptero, int idJato) {
+    Voo(String numero, String data, String hora, String origem, String destino, String piloto, String copiloto, String observacao, int idPista, int idAeronave) {
         this.numero = numero;
         this.data = data;
         this.hora = hora;
@@ -46,9 +44,7 @@ public class Voo {
         this.copiloto = copiloto;
         this.observacao = observacao;
         this.idPista = idPista;
-        this.idAviao = idAviao;
-        this.idHelicoptero = idHelicoptero;
-        this.idJato = idJato;
+        this.idAeronave = idAeronave;
     }
 
     public int getId() {
@@ -139,12 +135,12 @@ public class Voo {
         this.pista = pista;
     }
 
-    public int getIdAviao() {
-        return idAviao;
+    public int getIdAeronave() {
+        return idAeronave;
     }
 
-    public void setIdAviao(int idAviao) {
-        this.idAviao = idAviao;
+    public void setIdAeronave(int idAeronave) {
+        this.idAeronave = idAeronave;
     }
 
     public Aviao getAviao() {
@@ -155,14 +151,6 @@ public class Voo {
         this.aviao = aviao;
     }
 
-    public int getIdHelicoptero() {
-        return idHelicoptero;
-    }
-
-    public void setIdHelicoptero(int idHelicoptero) {
-        this.idHelicoptero = idHelicoptero;
-    }
-
     public Helicoptero getHelicoptero() {
         return helicoptero;
     }
@@ -170,15 +158,6 @@ public class Voo {
     public void setHelicoptero(Helicoptero helicoptero) {
         this.helicoptero = helicoptero;
     }
-
-    public int getIdJato() {
-        return idJato;
-    }
-
-    public void setIdJato(int idJato) {
-        this.idJato = idJato;
-    }
-
     public Jato getJato() {
         return jato;
     }
@@ -189,7 +168,7 @@ public class Voo {
 
     @Override
     public String toString() {
-        return "Voo{" + "id=" + id + ", numero=" + numero + ", data=" + data + ", hora=" + hora + ", origem=" + origem + ", destino=" + destino + ", piloto=" + piloto + ", copiloto=" + copiloto + ", observacao=" + observacao + ", idPista=" + idPista + ", pista=" + pista + ", idAviao=" + idAviao + ", aviao=" + aviao + ", idHelicoptero=" + idHelicoptero + ", helicoptero=" + helicoptero + ", idJato=" + idJato + ", jato=" + jato + '}';
+        return "Voo{" + "id=" + id + ", numero=" + numero + ", data=" + data + ", hora=" + hora + ", origem=" + origem + ", destino=" + destino + ", piloto=" + piloto + ", copiloto=" + copiloto + ", observacao=" + observacao + ", idPista=" + idPista + ", pista=" + pista + ", idAeronave=" + idAeronave + ", aviao=" + aviao + ", helicoptero=" + helicoptero + ", jato=" + jato + '}';
     }
 
     public boolean equals(Object obj) {
@@ -214,9 +193,7 @@ public class Voo {
         this.copiloto = voo.copiloto;
         this.observacao = voo.observacao;
         this.idPista = voo.idPista;
-        this.idAviao = voo.idAviao;
-        this.idHelicoptero = voo.idHelicoptero;
-        this.idJato = voo.idJato;
+        this.idAeronave = voo.idAeronave;
     }
 
     //Delete
@@ -230,9 +207,7 @@ public class Voo {
         this.copiloto = null;
         this.observacao = null;
         this.idPista = 0;
-        this.idAviao = 0;
-        this.idHelicoptero = 0;
-        this.idJato = 0;
+        this.idAeronave = 0;
     }
 
     //GetById
@@ -256,9 +231,7 @@ public class Voo {
                 voo.setCopiloto(rs.getString("copiloto"));
                 voo.setObservacao(rs.getString("observacao"));
                 voo.setIdPista(rs.getInt("idPista"));
-                voo.setIdAviao(rs.getInt("idAviao"));
-                voo.setIdHelicoptero(rs.getInt("idHelicoptero"));
-                voo.setIdJato(rs.getInt("idJato"));
+                voo.setIdAeronave(rs.getInt("idAeronave"));
             }
             ConnectionFactory.closeConnection(conn, ps, rs);
         } catch (SQLException ex) {
@@ -287,9 +260,7 @@ public class Voo {
                 voo.setCopiloto(rs.getString("copiloto"));
                 voo.setObservacao(rs.getString("observacao"));
                 voo.setIdPista(rs.getInt("idPista"));
-                voo.setIdAviao(rs.getInt("idAviao"));
-                voo.setIdHelicoptero(rs.getInt("idHelicoptero"));
-                voo.setIdJato(rs.getInt("idJato"));
+                voo.setIdAeronave(rs.getInt("idAeronave"));
             }
             ConnectionFactory.closeConnection(conn, ps, rs);
         } catch (SQLException ex) {

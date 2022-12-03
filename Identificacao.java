@@ -1,6 +1,10 @@
-public class Identificacao  {
+public class Identificacao {
     private String letras;
     private int numeros;
+
+    void execute() {
+
+    }
 
     public Identificacao() {
     }
@@ -41,7 +45,7 @@ public class Identificacao  {
             return false;
         }
         final Identificacao other = (Identificacao) obj;
-        if (!Objects.equals(this.letras, other.letras)) {
+        if (!obj.equals(this.letras, other.letras)) {
             return false;
         }
         if (this.numeros != other.numeros) {

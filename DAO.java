@@ -3,7 +3,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.mariadb.jdbc.*;
 
-public class DAO {
+public class DAO <T extends dataBase> {
     private static Connection con;
     private static final String URL = "jdbc:mariadb://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com:3306/aeroporto";
     //private static final String URL = "jdbc:mysql://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com/aeroporto";
@@ -23,7 +23,5 @@ public class DAO {
         getConnect().close();
         
     }
-
-
 
 }

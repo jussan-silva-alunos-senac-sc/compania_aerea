@@ -64,11 +64,6 @@ public class Helicoptero extends Aeronave {
     // GetALL
     public List<Helicoptero> getAll() {
         List<Helicoptero> lista = new ArrayList<>();
-        lista.add(new Helicoptero(1, "Boeing", "747", "Branco", 10));
-        lista.add(new Helicoptero(2, "Boeing", "747", "Branco", 10));
-        lista.add(new Helicoptero(3, "Boeing", "747", "Branco", 10));
-        lista.add(new Helicoptero(4, "Boeing", "747", "Branco", 10));
-        lista.add(new Helicoptero(5, "Boeing", "747", "Branco", 10));
         return lista;
     }
     

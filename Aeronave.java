@@ -1,6 +1,6 @@
 //Módulo destinado para as Aeronaves
 
-public class Aeronave {
+public abstract class Aeronave extends DAO {
     private int id;
     private String marca;
     private String modelo;

@@ -46,7 +46,6 @@ As devidas informações de cada entidade estão detalhadass no MER e Diagrama d
 
 ![Diagrama de Classes da Aplicação](diagrama%20de%20classe.png)
 
-
 ### Regras
 * Cada avião possui uma única companhia;
 * Somente serão criados aviões para companhias já cadastradas;
