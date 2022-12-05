@@ -60,7 +60,7 @@ public class Jato extends Aeronave {
 
     // Update
     public void update() throws SQLException {
-        String sql = "UPDATE jato SET marca = ?, modelo = ?, cor = ?, velocidade = ? WHERE id = ?";
+        String sql = "UPDATE jato SET marca = ?, modelo = ?, cor = ?, velocidade = ? WHERE id_jato = ?";
         PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
         ps.setString(1, this.getMarca());
         ps.setString(2, this.getModelo());
@@ -72,7 +72,7 @@ public class Jato extends Aeronave {
 
     // Delete
     public void delete() throws SQLException {
-        String sql = "DELETE FROM jato WHERE id = ?";
+        String sql = "DELETE FROM jato WHERE id_jato = ?";
         PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
         ps.setInt(1, this.getId());
         ps.execute();
@@ -81,7 +81,7 @@ public class Jato extends Aeronave {
     // getById
     public void getById(int id) {
         try {
-            String sql = "SELECT * FROM jato WHERE id = ?";
+            String sql = "SELECT * FROM jato WHERE id_jato = ?";
             PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
             ps.setInt(1, id);
             ps.execute();

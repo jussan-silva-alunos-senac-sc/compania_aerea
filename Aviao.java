@@ -16,19 +16,19 @@ public class Aviao extends Aeronave {
     Aviao() {
     }
 
-    Aviao(int id, String marca, String modelo, String prefixo, int capacidade, int idCompanhia) {
+    Aviao(int id, String marca, String modelo, String prefixo, int capacidade, Companhia companhia) {
         super(id, marca, modelo);
         this.prefixo = prefixo;
         this.capacidade = capacidade;
-        this.idCompanhia = idCompanhia;
+        this.companhia = companhia;
     
     }
 
-    Aviao(String marca, String modelo, String prefixo, int capacidade, int idCompanhia) {
+    Aviao(String marca, String modelo, String prefixo, int capacidade, Companhia companhia) {
         super(marca, modelo);
         this.prefixo = prefixo;
         this.capacidade = capacidade;
-        this.idCompanhia = idCompanhia;
+        this.companhia = companhia;
     }
 
     public String getPrefixo() {
@@ -47,7 +47,7 @@ public class Aviao extends Aeronave {
         this.capacidade = capacidade;
     }
 
-    public int getIdCompanhia() {
+    public int getidCompanhia() {
         return idCompanhia;
     }
 
@@ -71,32 +71,32 @@ public class Aviao extends Aeronave {
 
     //Insert
     public void insert() throws SQLException {
-        String sql = "INSERT INTO aviao (marca, modelo, prefixo, capacidade, idCompanhia) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO aviao (marca, modelo, prefixo, capacidade, id_companhia) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
         ps.setString(1, this.getMarca());
         ps.setString(2, this.getModelo());
         ps.setString(3, this.getPrefixo());
         ps.setInt(4, this.getCapacidade());
-        ps.setInt(5, this.getIdCompanhia());
+        ps.setInt(5, this.getById());
         ps.execute();
     }
 
     // Update
     public void update() throws SQLException {
-        String sql = "UPDATE aviao SET marca = ?, modelo = ?, prefixo = ?, capacidade = ?, idCompanhia = ? WHERE id = ?";
+        String sql = "UPDATE aviao SET marca = ?, modelo = ?, prefixo = ?, capacidade = ?, id_companhia = ? WHERE id_aviao = ?";
         PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
         ps.setString(1, this.getMarca());
         ps.setString(2, this.getModelo());
         ps.setString(3, this.getPrefixo());
         ps.setInt(4, this.getCapacidade());
-        ps.setInt(5, this.getIdCompanhia());
+        ps.setInt(5, this.getidCompanhia());
         ps.setInt(6, this.getId());
         ps.execute();
     }
 
     // Delete
     public void delete() throws SQLException {
-        String sql = "DELETE FROM aviao WHERE id = ?";
+        String sql = "DELETE FROM aviao WHERE id_aviao = ?";
         PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
         ps.setInt(1, this.getId());
         ps.execute();
@@ -104,7 +104,7 @@ public class Aviao extends Aeronave {
 
     // getById
     public void getById(int id) throws SQLException {
-        String sql = "SELECT * FROM aviao WHERE id = ?";
+        String sql = "SELECT * FROM aviao WHERE id_aviao = ?";
         PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
         ps.setInt(1, id);
         ps.execute();

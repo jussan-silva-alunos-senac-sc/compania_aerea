@@ -7,15 +7,15 @@ import java.util.List;
 //Módulo destinado para as companhias aéreas
 
 public class Companhia {
-    private int id;
+    private int idCompanhia;
     private String nome;
     private String cnpj;
 
     Companhia() {
     }
 
-    Companhia(int id, String nome, String cnpj) {
-        this.id = id;
+    Companhia(int idCompanhia, String nome, String cnpj) {
+        this.idCompanhia = idCompanhia;
         this.nome = nome;
         this.cnpj = cnpj;
     }
@@ -26,11 +26,11 @@ public class Companhia {
     }
 
     public int getId() {
-        return id;
+        return idCompanhia;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int idCompanhia) {
+        this.idCompanhia = idCompanhia;
     }
 
     public String getNome() {
@@ -51,7 +51,7 @@ public class Companhia {
 
     @Override
     public String toString() {
-        return "Companhia{" + "id=" + id + ", nome=" + nome + ", cnpj=" + cnpj + '}';
+        return "Companhia{" + "id=" + idCompanhia + ", nome=" + nome + ", cnpj=" + cnpj + '}';
     }
 
     public boolean equals(Object obj) {
@@ -59,7 +59,7 @@ public class Companhia {
             return false;
         }
         final Companhia other = (Companhia) obj;
-        if (this.id != other.id) {
+        if (this.idCompanhia != other.idCompanhia) {
             return false;
         }
         return true;
@@ -77,36 +77,34 @@ public class Companhia {
 
     // Update
     public void update() throws SQLException {
-        String sql = "UPDATE companhia SET nome = ?, cnpj = ? WHERE id = ?";
+        String sql = "UPDATE companhia SET nome = ?, cnpj = ? WHERE id_companhia = ?";
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
         stmt.setString(1, this.nome);
         stmt.setString(2, this.cnpj);
-        stmt.setInt(3, this.id);
+        stmt.setInt(3, this.idCompanhia);
         stmt.execute();
         DAO.deleteConnect();
     }
 
     // Delete
     public void delete() throws SQLException {
-        String sql = "DELETE FROM companhia WHERE id = ?";
+        String sql = "DELETE FROM companhia WHERE id_companhia = ?";
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
-        stmt.setInt(1, this.id);
+        stmt.setInt(1, this.idCompanhia);
         stmt.execute();
         DAO.deleteConnect();
     }
 
     // getById
-    public static Companhia getById(int id) throws SQLException {
-        String sql = "SELECT * FROM companhia WHERE id = ?";
+    public static Companhia getById(int idCompanhia) throws SQLException {
+        String sql = "SELECT * FROM companhia WHERE id_companhia = ?";
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
-        stmt.setInt(1, id);
+        stmt.setInt(1, idCompanhia);
         ResultSet rs = stmt.executeQuery();
         Companhia companhia = null;
         if (rs.next()) {
             companhia = new Companhia();
-            companhia.setId(rs.getInt("id"));
-            companhia.setNome(rs.getString("nome"));
-            companhia.setCnpj(rs.getString("cnpj"));
+            companhia.setId(rs.getInt("id_companhia"));
         }
         DAO.deleteConnect();
         return companhia;
@@ -120,7 +118,7 @@ public class Companhia {
         List<Companhia> companhias = new ArrayList<>();
         while (rs.next()) {
             Companhia companhia = new Companhia();
-            companhia.setId(rs.getInt("id"));
+            companhia.setId(rs.getInt("id_companhia"));
             companhia.setNome(rs.getString("nome"));
             companhia.setCnpj(rs.getString("cnpj"));
             companhias.add(companhia);

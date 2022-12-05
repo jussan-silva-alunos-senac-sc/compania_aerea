@@ -51,7 +51,7 @@ public class Helicoptero extends Aeronave {
     //Insert
     public void insert() {
         try {
-            String sql = "INSERT INTO Helicoptero (marca, modelo, cor, capacidade) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO helicoptero (marca, modelo, cor, capacidade) VALUES (?, ?, ?, ?)";
             PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
             ps.setString(1, getMarca());
             ps.setString(2, getModelo());
@@ -67,7 +67,7 @@ public class Helicoptero extends Aeronave {
     // Update
     public void update() {
         try {
-            String sql = "UPDATE Helicoptero SET marca = ?, modelo = ?, cor = ?, capacidade = ? WHERE id = ?";
+            String sql = "UPDATE helicoptero SET marca = ?, modelo = ?, cor = ?, capacidade = ? WHERE id_helicoptero = ?";
             PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
             ps.setString(1, getMarca());
             ps.setString(2, getModelo());
@@ -84,7 +84,7 @@ public class Helicoptero extends Aeronave {
     // Delete
     public void delete() {
         try {
-            String sql = "DELETE FROM Helicoptero WHERE id = ?";
+            String sql = "DELETE FROM helicoptero WHERE helicoptero = ?";
             PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
             ps.setInt(1, getId());
             ps.executeUpdate();
@@ -97,17 +97,13 @@ public class Helicoptero extends Aeronave {
     // getById
     public Helicoptero getById(int id) {
         try {
-            String sql = "SELECT * FROM Helicoptero WHERE id = ?";
+            String sql = "SELECT * FROM helicoptero WHERE id_helicoptero = ?";
             PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 Helicoptero h = new Helicoptero();
-                h.setId(rs.getInt("id"));
-                h.setMarca(rs.getString("marca"));
-                h.setModelo(rs.getString("modelo"));
-                h.setCor(rs.getString("cor"));
-                h.setCapacidade(rs.getInt("capacidade"));
+                h.setId(rs.getInt("id_helicoptero"));
                 return h;
             }
             ps.close();
@@ -121,12 +117,12 @@ public class Helicoptero extends Aeronave {
     public List<Helicoptero> getAll() {
         List<Helicoptero> lista = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Helicoptero";
+            String sql = "SELECT * FROM helicoptero";
             PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Helicoptero h = new Helicoptero();
-                h.setId(rs.getInt("id"));
+                h.setId(rs.getInt("id_helicoptero"));
                 h.setMarca(rs.getString("marca"));
                 h.setModelo(rs.getString("modelo"));
                 h.setCor(rs.getString("cor"));

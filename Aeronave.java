@@ -2,7 +2,7 @@
 //Desenvolvido por Jussan
 //------------------------------------------------
 
-public abstract class Aeronave extends DAO {
+public abstract class Aeronave extends Identificacao {
     private static int id;
     private String marca;
     private String modelo;
