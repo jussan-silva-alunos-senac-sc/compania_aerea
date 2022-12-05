@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 public class Gerenciamento {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 
         System.out.println("Sistema de Gerenciamento do Aeroporto Jatinho Feliz");
         System.out.println("--------------------------------------------------");
@@ -129,7 +129,7 @@ public class Gerenciamento {
 
 // Métodos de cadastrar, listar, alterar e excluir do Menu
 
-        public static void cadastrarCompanhia(Scanner scann) {
+        public static void cadastrarCompanhia(Scanner scann) throws SQLException {
             System.out.println("Cadastrar Companhia Aérea!");
             System.out.println("Digite o nome da Companhia Aérea: ");
             String nome = scann.next();
@@ -153,7 +153,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void cadastrarAeronave(Scanner scann) {   
+        public static void cadastrarAeronave(Scanner scann) throws SQLException {   
             System.out.println("Escolha o tipo de aeronave: ");	
             System.out.println("A - Avião!");
             System.out.println("H - Helicóptero!");
@@ -172,11 +172,20 @@ public class Gerenciamento {
                     int capacidade = scann.nextInt();
                     System.out.println("Digite o id da Companhia Aérea: ");
                     int idCompanhia = scann.nextInt();
-                    Aviao aviao = new Aviao(marca, modelo, prefixo, capacidade, idCompanhia);
+                    Companhia companhia = Companhia.getById(idCompanhia);
+                    while (companhia == null) {
+                        System.out.println("Companhia Aérea não encontrada!");
+                        System.out.println("Digite um id de Companhia Aérea Válido: ");
+                        System.out.println("Digite o id da Companhia Aérea: ");
+                        idCompanhia = scann.nextInt();
+                    }
+                    Aviao aviao = new Aviao(marca, modelo, prefixo, capacidade, companhia);
+                    
                     try {
                         aviao.insert();
                         System.out.println("Avião cadastrado com sucesso!");
-                    } catch (SQLException eAviao) {
+                        System.out.println("--------------------------------------------------");
+                    } catch (Exception eAviao) {
                         // TODO Auto-generated catch block
                         eAviao.printStackTrace();
                     }
@@ -199,8 +208,14 @@ public class Gerenciamento {
                     System.out.println("Digite a capacidade do Helicóptero: ");
                     capacidade = scann.nextInt();
                     Helicoptero helicoptero = new Helicoptero(marcah, modeloh, cor, capacidade);
-                    helicoptero.insert();
-                    System.out.println("Helicóptero cadastrado com sucesso!");
+                    try {
+                        helicoptero.insert();
+                        System.out.println("Helicóptero cadastrado com sucesso!");
+                        System.out.println("--------------------------------------------------");
+                    } catch (Exception eHelicoptero) {
+                        // TODO Auto-generated catch block
+                        eHelicoptero.printStackTrace();
+                    }
                     System.out.println("--------------------------------------------------");
                     System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
                     opcao = scann.nextInt();
@@ -223,7 +238,8 @@ public class Gerenciamento {
                     try {
                         jato.insert();
                         System.out.println("Jato cadastrado com sucesso!");
-                    } catch (SQLException eJato) {
+                        System.out.println("--------------------------------------------------");
+                    } catch (Exception eJato) {
                         // TODO Auto-generated catch block
                         eJato.printStackTrace();
                     }
@@ -244,7 +260,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void cadastrarHangar(Scanner scann) {
+        public static void cadastrarHangar(Scanner scann) throws SQLException {
             System.out.println("Cadastrar Hangar!");
             System.out.println("Digite o nome do Hangar: ");
             String local = scann.nextLine();
@@ -268,7 +284,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void cadastrarPista(Scanner scann) {
+        public static void cadastrarPista(Scanner scann) throws SQLException {
             System.out.println("Cadastrar Pista!");
             System.out.println("Digite o numero da Pista: ");
             String numero = scann.nextLine();
@@ -290,7 +306,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void cadastrarVoo(Scanner scann) {
+        public static void cadastrarVoo(Scanner scann) throws SQLException {
             System.out.println("Cadastrar Voo!");
             System.out.println("Digite o numero do Voo: ");
             String numero = scann.nextLine();
@@ -331,7 +347,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void listarCompanhias() {
+        public static void listarCompanhias() throws SQLException {
             Companhia companhia = new Companhia();
             try {
                 System.out.println("Listando todas as Companhias cadastradas em nosso sistema!");
@@ -353,13 +369,12 @@ public class Gerenciamento {
             }
         }
 
-        public static void listarAeronaves() {
+        public static void listarAeronaves() throws SQLException {
             System.out.println("Listar Aeronaves!");
             System.out.println("Escolha qual tipo de Aeronave deseja listar: ");
             System.out.println("A - Avião!");
             System.out.println("H - Helicóptero!");
             System.out.println("J - Jato!");
-            System.out.println("T - Todas as Aeronaves!");
             System.out.println("S - Sair!");
             Scanner scann = new Scanner(System.in);
             String opcao = scann.nextLine();
@@ -367,8 +382,9 @@ public class Gerenciamento {
                 case "A":
                     Aviao aviao = new Aviao();
                     try {
+                        System.out.println("Listando todos os Aviões cadastrados em nosso sistema!");
                         aviao.getAll();
-                    } catch (SQLException eAviao) {
+                    } catch (Exception eAviao) {
                         // TODO Auto-generated catch block
                         eAviao.printStackTrace();
                     }
@@ -376,8 +392,9 @@ public class Gerenciamento {
                 case "H":
                     Helicoptero helicoptero = new Helicoptero();
                     try {
+                        System.out.println("Listando todos os Helicópteros cadastrados em nosso sistema!");
                         helicoptero.getAll();
-                    } catch (SQLException eHelicoptero) {
+                    } catch (Exception eHelicoptero) {
                         // TODO Auto-generated catch block
                         eHelicoptero.printStackTrace();
                     }
@@ -385,23 +402,11 @@ public class Gerenciamento {
                 case "J":
                     Jato jato = new Jato();
                     try {
+                        System.out.println("Listando todos os Jatos cadastrados em nosso sistema!");
                         jato.getAll();
-                    } catch (SQLException eJato) {
+                    } catch (Exception eJato) {
                         // TODO Auto-generated catch block
                         eJato.printStackTrace();
-                    }
-                    break;
-                case "T":
-                    aviao = new Aviao();
-                    helicoptero = new Helicoptero();
-                    jato = new Jato();
-                    try {
-                        aviao.getAll();
-                        helicoptero.getAll();
-                        jato.getAll();
-                    } catch (SQLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
                     }
                     break;
                 case "S":
@@ -409,12 +414,6 @@ public class Gerenciamento {
                 default:
                     System.out.println("Opção inválida!");
                     break;
-            }
-            try {
-                Aeronave.getId();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
             System.out.println("--------------------------------------------------");
             System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
@@ -426,7 +425,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void listarHangares() {
+        public static void listarHangares() throws SQLException {
             System.out.println("Listar Hangares!");
             try {
                 System.out.println("Listando todos os Hangares cadastrados em nosso sistema!");
@@ -448,7 +447,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void listarPistas() {
+        public static void listarPistas() throws SQLException {
             System.out.println("Listar Pista!");
             try {
                 System.out.println("Listando todas as Pistas cadastradas em nosso sistema!");
@@ -470,7 +469,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void listarVoos() {
+        public static void listarVoos() throws SQLException {
             System.out.println("Listar Voos!");
             try {
                 System.out.println("Listando todos os Voos cadastrados em nosso sistema!");
@@ -492,15 +491,15 @@ public class Gerenciamento {
             }
         }
 
-        public static void alterarCompanhia(Scanner scann) {
+        public static void alterarCompanhia(Scanner scann) throws SQLException {
             System.out.println("Alterar Companhia Aérea!");
             System.out.println("Digite o id da Companhia Aérea: ");
-            int id = scann.nextInt();
+            int idCompanhia = scann.nextInt();
             System.out.println("Digite o nome da Companhia Aérea: ");
             String nome = scann.next();
             System.out.println("Digite o cnpj da Companhia Aérea: ");
             String cnpj = scann.next();
-            Companhia companhia = new Companhia(id, nome, cnpj);
+            Companhia companhia = new Companhia(idCompanhia, nome, cnpj);
             try {
                 System.out.println("Alterando Companhia Aérea!");
                 companhia.update();
@@ -520,14 +519,14 @@ public class Gerenciamento {
             }
         }
 
-        public static void alterarAeronave(Scanner scann) {
+        public static void alterarAeronave(Scanner scann) throws SQLException {
             System.out.println("Alterar Aeronave!");
             System.out.println("Digite o tipo da Aeronave: ");
             String tipo = scann.next();
             switch (tipo) {
                 case "A":
                     System.out.println("Digite o id da Aeronave: ");
-                    int idAeronave = scann.nextInt();
+                    int idAviao = scann.nextInt();
                     System.out.println("Digite a marca do Avião: ");
                     String marca = scann.next();
                     System.out.println("Digite o modelo do Avião: ");
@@ -538,7 +537,8 @@ public class Gerenciamento {
                     int capacidade = scann.nextInt();
                     System.out.println("Digite o Id da companhia Aérea: ");
                     int idCompanhia = scann.nextInt();
-                    Aviao aviao = new Aviao(idAeronave, marca, modelo, prefixo, capacidade, idCompanhia);
+                    Companhia companhia = Companhia.getById(idCompanhia);
+                    Aviao aviao = new Aviao(idAviao, marca, modelo, prefixo, capacidade, companhia);
                     try {
                         System.out.println("Alterando Avião!");
                         aviao.update();
@@ -559,7 +559,7 @@ public class Gerenciamento {
                     break;
                 case "H":
                     System.out.println("Digite o id da Aeronave: ");
-                    idAeronave = scann.nextInt();
+                    int idHelicoptero = scann.nextInt();
                     System.out.println("Digite a marca do Helicóptero: ");
                     marca = scann.next();
                     System.out.println("Digite o modelo do Helicóptero: ");
@@ -568,13 +568,13 @@ public class Gerenciamento {
                     String cor = scann.next();
                     System.out.println("Digite a capacidade do Helicóptero: ");
                     capacidade = scann.nextInt();
-                    Helicoptero helicoptero = new Helicoptero(idAeronave, marca, modelo, cor, capacidade);
+                    Helicoptero helicoptero = new Helicoptero(idHelicoptero, marca, modelo, cor, capacidade);
                     try {
                         System.out.println("Alterando Helicóptero!");
                         helicoptero.update();
                         System.out.println("Alteração concluída com Sucesso!");
                         System.out.println("--------------------------------------------------");
-                    } catch (SQLException e1) {
+                    } catch (Exception e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
@@ -589,7 +589,7 @@ public class Gerenciamento {
                     break;
                 case "J":
                     System.out.println("Digite o id da Aeronave: ");
-                    idAeronave = scann.nextInt();
+                    int idJato = scann.nextInt();
                     System.out.println("Digite a marca do Jato: ");
                     marca = scann.next();
                     System.out.println("Digite o modelo do Jato: ");
@@ -598,7 +598,7 @@ public class Gerenciamento {
                     cor = scann.next();
                     System.out.println("Digite a velocidade do Jato: ");
                     int velocidade = scann.nextInt();
-                    Jato jato = new Jato(idAeronave, marca, modelo, cor, velocidade);
+                    Jato jato = new Jato(idJato, marca, modelo, cor, velocidade);
                     try {
                         System.out.println("Alterando Jato!");
                         jato.update();
@@ -623,7 +623,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void alterarHangar(Scanner scann) {
+        public static void alterarHangar(Scanner scann) throws SQLException {
             System.out.println("Alterar Hangar!");
             System.out.println("Digite o id do Hangar: ");
             int idHangar = scann.nextInt();
@@ -651,7 +651,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void alterarPista(Scanner scann) {
+        public static void alterarPista(Scanner scann) throws SQLException {
             System.out.println("Alterar Pista!");
             System.out.println("Digite o id da Pista: ");
             int idPista = scann.nextInt();
@@ -677,7 +677,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void alterarVoo(Scanner scann) {
+        public static void alterarVoo(Scanner scann) throws SQLException {
             System.out.println("Alterar Voo!");
             System.out.println("Digite o id do Voo: ");
             int idVoo = scann.nextInt();
@@ -721,7 +721,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void excluirCompanhia(Scanner scann) {
+        public static void excluirCompanhia(Scanner scann) throws SQLException {
             System.out.println("Excluir Companhia!");
             System.out.println("Digite o id da Companhia: ");
             int idCompanhia = scann.nextInt();
@@ -745,7 +745,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void excluirAeronave(Scanner scann) {
+        public static void excluirAeronave(Scanner scann) throws SQLException {
             System.out.println("Excluir Aeronave!");
             System.out.println("Digite o tipo da Aeronave: ");
             System.out.println("A - Avião");
@@ -785,7 +785,7 @@ public class Gerenciamento {
                         helicoptero.delete();
                         System.out.println("Helicóptero excluído com sucesso!");
                         System.out.println("--------------------------------------------------");
-                    } catch (SQLException e) {
+                    } catch (Exception e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
@@ -829,7 +829,7 @@ public class Gerenciamento {
         
        
 
-        public static void excluirHangar(Scanner scann) {
+        public static void excluirHangar(Scanner scann) throws SQLException {
             System.out.println("Excluir Hangar!");
             System.out.println("Digite o id do Hangar: ");
             int idHangar = scann.nextInt();
@@ -853,7 +853,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void excluirPista(Scanner scann) {
+        public static void excluirPista(Scanner scann) throws SQLException {
             System.out.println("Excluir Pista!");
             System.out.println("Digite o id da Pista: ");
             int idPista = scann.nextInt();
@@ -877,7 +877,7 @@ public class Gerenciamento {
             }
         }
 
-        public static void excluirVoo(Scanner scann) {
+        public static void excluirVoo(Scanner scann) throws SQLException {
             System.out.println("Excluir Voo!");
             System.out.println("Digite o id do Voo: ");
             int idVoo = scann.nextInt();
