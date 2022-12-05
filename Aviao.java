@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Aviao extends Aeronave {
-    private String prefixo;
+    private Identificacao<String, Integer> prefixo;
     private int capacidade;
     private int idCompanhia;
     private Companhia companhia;
@@ -16,7 +16,7 @@ public class Aviao extends Aeronave {
     Aviao() {
     }
 
-    Aviao(int id, String marca, String modelo, String prefixo, int capacidade, Companhia companhia) {
+    Aviao(int id, String marca, String modelo, Identificacao<String, Integer> prefixo, int capacidade, Companhia companhia) {
         super(id, marca, modelo);
         this.prefixo = prefixo;
         this.capacidade = capacidade;
@@ -24,18 +24,18 @@ public class Aviao extends Aeronave {
     
     }
 
-    Aviao(String marca, String modelo, String prefixo, int capacidade, Companhia companhia) {
+    Aviao(String marca, String modelo, Identificacao<String, Integer> prefixo, int capacidade, Companhia companhia) {
         super(marca, modelo);
         this.prefixo = prefixo;
         this.capacidade = capacidade;
         this.companhia = companhia;
     }
 
-    public String getPrefixo() {
+    public Identificacao<String, Integer> getPrefixo() {
         return prefixo;
     }
 
-    public void setPrefixo(String prefixo) {
+    public void setPrefixo(Identificacao<String, Integer> prefixo) {
         this.prefixo = prefixo;
     }
 
@@ -75,9 +75,9 @@ public class Aviao extends Aeronave {
         PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
         ps.setString(1, this.getMarca());
         ps.setString(2, this.getModelo());
-        ps.setString(3, this.getPrefixo());
+        ps.setString(3, ((Object) this.getPrefixo()).toString());
         ps.setInt(4, this.getCapacidade());
-        ps.setInt(5, this.getById());
+        ps.setInt(5, Companhia.getById(idCompanhia).getId());
         ps.execute();
     }
 
@@ -87,7 +87,7 @@ public class Aviao extends Aeronave {
         PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
         ps.setString(1, this.getMarca());
         ps.setString(2, this.getModelo());
-        ps.setString(3, this.getPrefixo());
+        ps.setString(3, ((Object) this.getPrefixo()).toString());
         ps.setInt(4, this.getCapacidade());
         ps.setInt(5, this.getidCompanhia());
         ps.setInt(6, this.getId());
