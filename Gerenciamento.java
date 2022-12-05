@@ -160,14 +160,35 @@ public class Gerenciamento {
             System.out.println("J - Jato!");
             System.out.println("S - Sair!");
             String tipo = scann.next();
+            if (tipo == "A" || tipo == "a"){
+                tipo = "A";
+            } else if (tipo == "H" || tipo == "h"){
+                tipo = "H";
+            } else if (tipo == "J" || tipo == "j"){
+                tipo = "J";
+            } else if (tipo == "S" || tipo == "s"){
+                System.out.println("Sair!");
+            } else {
+                System.out.println("Opção inválida!");
+            }
             switch (tipo) {
                 case "A":
                     System.out.println("Digite a marca do Avião: ");
                     String marca = scann.next();
                     System.out.println("Digite o modelo do Avião: ");
                     String modelo = scann.next();
-                    System.out.println("Digite o prefixo do Avião: ");
-                    String prefixo = scann.next();
+                    System.out.println("Digite o prefixo do Avião: composto por 3 letras e 4 números: ");
+                    while (true) {
+                        String prefixo = scann.next();
+                        if (prefixo.matches("[A-Z]{3}[0-9]{4}")) {
+                            System.out.println("Prefixo válido!");
+                            Identificacao identificacao = new Identificacao( prefixo, prefixo);
+                            identificacao.setPrefixo(prefixo);
+
+                        } else {
+                            System.out.println("Prefixo inválido! Digite novamente: ");
+                        }
+                    }
                     System.out.println("Digite a capacidade do Avião: ");
                     int capacidade = scann.nextInt();
                     System.out.println("Digite o id da Companhia Aérea: ");
@@ -180,8 +201,8 @@ public class Gerenciamento {
                         idCompanhia = scann.nextInt();
                     }
                     Aviao aviao = new Aviao(marca, modelo, prefixo, capacidade, companhia);
-                    
                     try {
+                        System.out.println("Cadastrando Avião!");
                         aviao.insert();
                         System.out.println("Avião cadastrado com sucesso!");
                         System.out.println("--------------------------------------------------");
@@ -378,6 +399,17 @@ public class Gerenciamento {
             System.out.println("S - Sair!");
             Scanner scann = new Scanner(System.in);
             String opcao = scann.nextLine();
+            if (opcao == "A" || opcao == "a") {
+                opcao = "A";
+            } else if (opcao == "H" || opcao == "h") {
+                opcao = "H";
+            } else if (opcao == "J" || opcao == "j") {
+                opcao = "J";
+            } else if (opcao == "S" || opcao == "s") {
+                System.out.println("Sair!");
+            } else {
+                System.out.println("Opção inválida!");
+            }
             switch (opcao) {
                 case "A":
                     Aviao aviao = new Aviao();
@@ -522,7 +554,19 @@ public class Gerenciamento {
         public static void alterarAeronave(Scanner scann) throws SQLException {
             System.out.println("Alterar Aeronave!");
             System.out.println("Digite o tipo da Aeronave: ");
+            System.out.println("Digite A - para Avião: ");
+            System.out.println("Digite H - para Helicóptero: ");
+            System.out.println("Digite J - para Jato: ");
             String tipo = scann.next();
+            if (tipo == "A" || tipo == "a") {
+                tipo = "A";
+            } else if (tipo == "H" || tipo == "h") {
+                tipo = "H";
+            } else if (tipo == "J" || tipo == "j") {
+                tipo = "J";
+            } else {
+                System.out.println("Tipo de Aeronave inválido!");
+            }
             switch (tipo) {
                 case "A":
                     System.out.println("Digite o id da Aeronave: ");
@@ -538,7 +582,7 @@ public class Gerenciamento {
                     System.out.println("Digite o Id da companhia Aérea: ");
                     int idCompanhia = scann.nextInt();
                     Companhia companhia = Companhia.getById(idCompanhia);
-                    Aviao aviao = new Aviao(idAviao, marca, modelo, prefixo, capacidade, companhia);
+                    Aviao aviao = new Aviao();
                     try {
                         System.out.println("Alterando Avião!");
                         aviao.update();
@@ -753,6 +797,15 @@ public class Gerenciamento {
             System.out.println("J - Jato");
             System.out.println("S - Sair");
             String tipo = scann.next();
+            if (tipo == "A" || tipo =="a") {
+                tipo = "A";
+            } else if (tipo == "H" || tipo =="h") {
+                tipo = "H";
+            } else if (tipo == "J" || tipo =="j") {
+                tipo = "J";
+            } else {
+                System.out.println("Sair!");
+            }
             switch (tipo) {
                 case "A":
                     System.out.println("Digite o id da Aeronave: ");
