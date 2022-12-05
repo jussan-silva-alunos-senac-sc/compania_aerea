@@ -1,7 +1,9 @@
 //Módulo destinado para as Aeronaves
+//Desenvolvido por Jussan
+//------------------------------------------------
 
 public abstract class Aeronave extends DAO {
-    private int id;
+    private static int id;
     private String marca;
     private String modelo;
 
@@ -19,7 +21,7 @@ public abstract class Aeronave extends DAO {
         this.modelo = modelo;
     }
 
-    public int getId() {
+    public static int getId() {
         return id;
     }
 

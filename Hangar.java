@@ -1,4 +1,12 @@
-//Módulo destinado para os hangares
+//Módulo destinado para os Hangares
+//Desenvolvido por Jussan
+//------------------------------------------------
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Hangar extends DAO {
     private int id;
@@ -54,7 +62,7 @@ public class Hangar extends DAO {
 
     @Override
     public String toString() {
-        return "Hangar{" + "id=" + id + ", local=" + local + ", idAeronave=" + idAeronave + ", aviao=" + aviao + '}';
+        return "Hangar{" + "id=" + id + ", local=" + local + ", idAvião=" + idAeronave + ", aviao=" + aviao + '}';
     }
 
     public boolean equals(Object obj) {
@@ -68,46 +76,75 @@ public class Hangar extends DAO {
         return true;
     }
 
+    //Insert
+    public void insert() throws SQLException {
+        String sql = "INSERT INTO hangar (local, idAeronave) VALUES (?, ?)";
+        PreparedStatement ps = getConnect().prepareStatement(sql);
+        ps.setString(1, this.local);
+        ps.setInt(2, this.idAeronave);
+        ps.execute();
+        ps.close();
+        deleteConnect();
+    }
+
     // Update
-    public void update(Hangar hangar) {
-        this.id = hangar.getId();
-        this.local = hangar.getLocal();
-        this.idAeronave = hangar.getidAeronave();
+    public void update() throws SQLException {
+        String sql = "UPDATE hangar SET local = ?, idAeronave = ? WHERE id = ?";
+        PreparedStatement ps = getConnect().prepareStatement(sql);
+        ps.setString(1, this.local);
+        ps.setInt(2, this.idAeronave);
+        ps.setInt(3, this.id);
+        ps.execute();
+        ps.close();
+        deleteConnect();
     }
 
     // Delete
-    public void delete() {
-        this.id = 0;
-        this.local = null;
-        this.idAeronave = 0;
+    public void delete() throws SQLException {
+        String sql = "DELETE FROM hangar WHERE id = ?";
+        PreparedStatement ps = getConnect().prepareStatement(sql);
+        ps.setInt(1, this.id);
+        ps.execute();
+        ps.close();
+        deleteConnect();
     }
 
     // getById
-    public void getById(int id) {
-        this.id = id;
-        this.local = "Hangar 1";
-        this.idAeronave = 1;
+    public static Hangar getById(int id) throws SQLException {
+        String sql = "SELECT * FROM hangar WHERE id = ?";
+        PreparedStatement ps = getConnect().prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        Hangar hangar = null;
+        if (rs.next()) {
+            hangar = new Hangar();
+            hangar.setId(rs.getInt("id"));
+            hangar.setLocal(rs.getString("local"));
+            hangar.setidAeronave(rs.getInt("idAeronave"));
+        }
+        rs.close();
+        ps.close();
+        deleteConnect();
+        return hangar;
     }
 
     // GetALL
-    public List<Hangar> getAll() {
-        List<Hangar> hangares = new ArrayList<Hangar>();
-        Hangar hangar = new Hangar();
-        hangar.setId(1);
-        hangar.setLocal("Hangar 1");
-        hangar.setidAeronave(1);
-        hangares.add(hangar);
-        hangar = new Hangar();
-        hangar.setId(2);
-        hangar.setLocal("Hangar 2");
-        hangar.setidAeronave(2);
-        hangares.add(hangar);
-        hangar = new Hangar();
-        hangar.setId(3);
-        hangar.setLocal("Hangar 3");
-        hangar.setidAeronave(3);
-        hangares.add(hangar);
+    public static List<Hangar> getAll() throws SQLException {
+        String sql = "SELECT * FROM hangar";
+        PreparedStatement ps = getConnect().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        List<Hangar> hangares = new ArrayList<>();
+        while (rs.next()) {
+            Hangar hangar = new Hangar();
+            hangar.setId(rs.getInt("id"));
+            hangar.setLocal(rs.getString("local"));
+            hangar.setidAeronave(rs.getInt("idAeronave"));
+            hangares.add(hangar);
+        }
+        rs.close();
+        ps.close();
+        deleteConnect();
         return hangares;
     }
-    
+
 }

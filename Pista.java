@@ -1,3 +1,12 @@
+//Módulo destinado para as Pistas
+//Desenvolvido por Jussan
+//------------------------------------------------
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Pista {
     private int id;
     private String numero;
@@ -45,33 +54,47 @@ public class Pista {
         }
         return true;
     }
+    
+    //Insert
+    public void insert() throws SQLException {
+        String sql = "INSERT INTO pista (numero) VALUES (?)";
+        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
+        ps.setString(1, this.numero);
+        ps.execute();
+    }
 
     // Update
-    public void update(Pista pista) {
-        this.numero = pista.numero;
+    public void update() throws SQLException {
+        String sql = "UPDATE pista SET numero = ? WHERE id = ?";
+        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
+        ps.setString(1, this.numero);
+        ps.setInt(2, this.id);
+        ps.execute();
     }
 
     // Delete
-    public void delete() {
-        this.id = 0;
-        this.numero = null;
+    public void delete() throws SQLException {
+        String sql = "DELETE FROM pista WHERE id = ?";
+        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
+        ps.setInt(1, this.id);
+        ps.execute();
     }
 
     // getById
-    public void getById(int id) {
-        this.id = id;
-        this.numero = "numero";
+    public static Pista getById(int id) throws SQLException {
+        String sql = "SELECT * FROM pista WHERE id = ?";
+        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
+        ps.setInt(1, id);
+        ps.execute();
+        return null;
     }
 
     // GetALL
-    public List<Pista> getAll() {
-        List<Pista> pistas = new ArrayList<>();
-        pistas.add(new Pista(1, "numero"));
-        pistas.add(new Pista(2, "numero"));
-        pistas.add(new Pista(3, "numero"));
-        pistas.add(new Pista(4, "numero"));
-        pistas.add(new Pista(5, "numero"));
-        return pistas;
+    public static List<Pista> getAll() throws SQLException {
+        String sql = "SELECT * FROM pista";
+        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
+        ps.execute();
+        return null;
     }
     
 }

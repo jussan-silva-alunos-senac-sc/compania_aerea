@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 public class Gerenciamento {
@@ -26,7 +27,8 @@ public class Gerenciamento {
         System.out.println("18 - Excluir Hangar!");
         System.out.println("19 - Excluir Pista!");
         System.out.println("20 - Excluir Voo!");
-        System.out.println("21 - Sair!");
+        System.out.println("21 - Realizar nova operação!");
+        System.out.println("22 - Sair!");
         System.out.println("--------------------------------------------------");
         System.out.println("Digite a opção desejada: ");
         Scanner scann = new Scanner(System.in);
@@ -54,23 +56,23 @@ public class Gerenciamento {
                 break;
             case 6:
                 System.out.println("Listar Companhias Aéreas!");
-                listarCompanhias(scann);
+                listarCompanhias();
                 break;
             case 7:
                 System.out.println("Listar Aeronaves!");
-                listarAeronaves(scann);
+                listarAeronaves();
                 break;
             case 8:
                 System.out.println("Listar Hangares!");
-                listarHangares(scann);
+                listarHangares();
                 break;
             case 9:
                 System.out.println("Listar Pistas!");
-                listarPistas(scann);
+                listarPistas();
                 break;
             case 10:
                 System.out.println("Listar Voos!");
-                listarVoos(scann);
+                listarVoos();
                 break;
             case 11:
                 System.out.println("Alterar Companhia Aérea!");
@@ -113,6 +115,10 @@ public class Gerenciamento {
                 excluirVoo(scann);
                 break;
             case 21:
+                System.out.println("Realizar nova operação!");
+                main(null);
+                break;
+            case 22:
                 System.out.println("Sair!");
                 break;
             default:
@@ -126,11 +132,25 @@ public class Gerenciamento {
         public static void cadastrarCompanhia(Scanner scann) {
             System.out.println("Cadastrar Companhia Aérea!");
             System.out.println("Digite o nome da Companhia Aérea: ");
-            String nome = scann.nextLine();
+            String nome = scann.next();
             System.out.println("Digite o CNPJ da Companhia Aérea: ");
-            String cnpj = scann.nextLine();
+            String cnpj = scann.next();
+            
             Companhia companhia = new Companhia(nome, cnpj);
-            dataBase.insert(companhia);
+            try {
+                companhia.insert();
+                System.out.println("Companhia Aérea cadastrada com sucesso!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
         public static void cadastrarAeronave(Scanner scann) {   
@@ -153,20 +173,43 @@ public class Gerenciamento {
                     System.out.println("Digite o id da Companhia Aérea: ");
                     int idCompanhia = scann.nextInt();
                     Aviao aviao = new Aviao(marca, modelo, prefixo, capacidade, idCompanhia);
-                    dataBase.insert(aviao);
+                    try {
+                        aviao.insert();
+                        System.out.println("Avião cadastrado com sucesso!");
+                    } catch (SQLException eAviao) {
+                        // TODO Auto-generated catch block
+                        eAviao.printStackTrace();
+                    }
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+                    int opcao = scann.nextInt();
+                    if (opcao == 21) {
+                        main(null);
+                    } else {
+                        System.out.println("Sair!");
+                    }
                     break;
                 case "H":
                     System.out.println("Digite a marca do Helicóptero: ");
-                    marca = scann.next();
+                    String marcah = scann.next();
                     System.out.println("Digite o modelo do Helicóptero: ");
-                    modelo = scann.next();
+                    String modeloh = scann.next();
                     System.out.println("Digite a cor do Helicóptero: ");
                     String cor = scann.next();
                     System.out.println("Digite a capacidade do Helicóptero: ");
                     capacidade = scann.nextInt();
-                    Helicoptero helicoptero = new Helicoptero(marca, modelo, cor, capacidade);
-                    dataBase.insert(helicoptero);
-                    break;
+                    Helicoptero helicoptero = new Helicoptero(marcah, modeloh, cor, capacidade);
+                    helicoptero.insert();
+                    System.out.println("Helicóptero cadastrado com sucesso!");
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+                    opcao = scann.nextInt();
+                    if (opcao == 21) {
+                        main(null);
+                    } else {
+                        System.out.println("Sair!");
+                    }
+                        break;
                 case "J":
                     System.out.println("Digite a marca do Jato: ");
                     marca = scann.next();
@@ -177,7 +220,21 @@ public class Gerenciamento {
                     System.out.println("Digite a velocidade do Jato: ");
                     int velocidade = scann.nextInt();
                     Jato jato = new Jato(marca, modelo, cor, velocidade);
-                    dataBase.insert(jato);
+                    try {
+                        jato.insert();
+                        System.out.println("Jato cadastrado com sucesso!");
+                    } catch (SQLException eJato) {
+                        // TODO Auto-generated catch block
+                        eJato.printStackTrace();
+                    }
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+                    opcao = scann.nextInt();
+                    if (opcao == 21) {
+                        main(null);
+                    } else {
+                        System.out.println("Sair!");
+                    }
                     break;
                 case "S":   
                     break;
@@ -194,7 +251,21 @@ public class Gerenciamento {
             System.out.println("Digite o id da Aeronave: ");
             int idAeronave = scann.nextInt();
             Hangar hangar = new Hangar(local, idAeronave);
-            dataBase.insert(hangar);
+            try {
+                hangar.insert();
+                System.out.println("Hangar cadastrado com sucesso!");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
         public static void cadastrarPista(Scanner scann) {
@@ -202,11 +273,24 @@ public class Gerenciamento {
             System.out.println("Digite o numero da Pista: ");
             String numero = scann.nextLine();
             Pista pista = new Pista(numero);
-            dataBase.insert(pista);
+            try {
+                pista.insert();
+                System.out.println("Pista cadastrada com sucesso!");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
         public static void cadastrarVoo(Scanner scann) {
-
             System.out.println("Cadastrar Voo!");
             System.out.println("Digite o numero do Voo: ");
             String numero = scann.nextLine();
@@ -230,46 +314,181 @@ public class Gerenciamento {
             int idAeronave = scann.nextInt();
 
             Voo voo = new Voo(numero, data, hora, origem, destino, piloto, copiloto, observacao, idPista, idAeronave);
-            dataBase.insert(voo);
-        }
-
-        public static void listarCompanhias(Scanner scann) {
-            System.out.println("Listar Companhia Aérea!");
-            List<Companhia> companhias = dataBase.list();
-            for (Companhia companhia : companhias) {
-                System.out.println(companhia);
+            try {
+                voo.insert();
+                System.out.println("Voo cadastrado com sucesso!");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
             }
         }
 
-        public static void listarAeronaves(Scanner scann) {
-            System.out.println("Listar Aeronave!");
-            List<Aeronave> aeronaves = dataBase.list();
-            for (Aeronave aeronave : aeronaves) {
-                System.out.println(aeronave);
+        public static void listarCompanhias() {
+            Companhia companhia = new Companhia();
+            try {
+                System.out.println("Listando todas as Companhias cadastradas em nosso sistema!");
+                companhia.getAll();
+                System.out.println("Listagem concluída com Sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            Scanner scann = new Scanner(System.in);
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
             }
         }
 
-        public static void listarHangares(Scanner scann) {
-            System.out.println("Listar Hangar!");
-            List<Hangar> hangares = dataBase.list();
-            for (Hangar hangar : hangares) {
-                System.out.println(hangar);
+        public static void listarAeronaves() {
+            System.out.println("Listar Aeronaves!");
+            System.out.println("Escolha qual tipo de Aeronave deseja listar: ");
+            System.out.println("A - Avião!");
+            System.out.println("H - Helicóptero!");
+            System.out.println("J - Jato!");
+            System.out.println("T - Todas as Aeronaves!");
+            System.out.println("S - Sair!");
+            Scanner scann = new Scanner(System.in);
+            String opcao = scann.nextLine();
+            switch (opcao) {
+                case "A":
+                    Aviao aviao = new Aviao();
+                    try {
+                        aviao.getAll();
+                    } catch (SQLException eAviao) {
+                        // TODO Auto-generated catch block
+                        eAviao.printStackTrace();
+                    }
+                    break;
+                case "H":
+                    Helicoptero helicoptero = new Helicoptero();
+                    try {
+                        helicoptero.getAll();
+                    } catch (SQLException eHelicoptero) {
+                        // TODO Auto-generated catch block
+                        eHelicoptero.printStackTrace();
+                    }
+                    break;
+                case "J":
+                    Jato jato = new Jato();
+                    try {
+                        jato.getAll();
+                    } catch (SQLException eJato) {
+                        // TODO Auto-generated catch block
+                        eJato.printStackTrace();
+                    }
+                    break;
+                case "T":
+                    aviao = new Aviao();
+                    helicoptero = new Helicoptero();
+                    jato = new Jato();
+                    try {
+                        aviao.getAll();
+                        helicoptero.getAll();
+                        jato.getAll();
+                    } catch (SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    break;
+                case "S":
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
+            try {
+                Aeronave.getId();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao2 = scann.nextInt();
+            if (opcao2 == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
             }
         }
 
-        public static void listarPistas(Scanner scann) {
+        public static void listarHangares() {
+            System.out.println("Listar Hangares!");
+            try {
+                System.out.println("Listando todos os Hangares cadastrados em nosso sistema!");
+                Hangar.getAll();
+                System.out.println("Listagem concluída com Sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            Scanner scann = new Scanner(System.in);
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
+        }
+
+        public static void listarPistas() {
             System.out.println("Listar Pista!");
-            List<Pista> pistas = dataBase.list();
-            for (Pista pista : pistas) {
-                System.out.println(pista);
+            try {
+                System.out.println("Listando todas as Pistas cadastradas em nosso sistema!");
+                Pista.getAll();
+                System.out.println("Listagem concluída com Sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            Scanner scann = new Scanner(System.in);
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
             }
         }
 
-        public static void listarVoos(Scanner scann) {
-            System.out.println("Listar Voo!");
-            List<Voo> voos = dataBase.list();
-            for (Voo voo : voos) {
-                System.out.println(voo);
+        public static void listarVoos() {
+            System.out.println("Listar Voos!");
+            try {
+                System.out.println("Listando todos os Voos cadastrados em nosso sistema!");
+                Voo.getAll();
+                System.out.println("Listagem concluída com Sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            Scanner scann = new Scanner(System.in);
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
             }
         }
 
@@ -282,7 +501,23 @@ public class Gerenciamento {
             System.out.println("Digite o cnpj da Companhia Aérea: ");
             String cnpj = scann.next();
             Companhia companhia = new Companhia(id, nome, cnpj);
-            dataBase.update(companhia);
+            try {
+                System.out.println("Alterando Companhia Aérea!");
+                companhia.update();
+                System.out.println("Alteração concluída com Sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
         public static void alterarAeronave(Scanner scann) {
@@ -304,7 +539,23 @@ public class Gerenciamento {
                     System.out.println("Digite o Id da companhia Aérea: ");
                     int idCompanhia = scann.nextInt();
                     Aviao aviao = new Aviao(idAeronave, marca, modelo, prefixo, capacidade, idCompanhia);
-                    dataBase.update(aviao);
+                    try {
+                        System.out.println("Alterando Avião!");
+                        aviao.update();
+                        System.out.println("Alteração concluída com Sucesso!");
+                        System.out.println("--------------------------------------------------");
+                    } catch (SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+                    int opcao = scann.nextInt();
+                    if (opcao == 21) {
+                        main(null);
+                    } else {
+                        System.out.println("Sair!");
+                    }
                     break;
                 case "H":
                     System.out.println("Digite o id da Aeronave: ");
@@ -318,7 +569,23 @@ public class Gerenciamento {
                     System.out.println("Digite a capacidade do Helicóptero: ");
                     capacidade = scann.nextInt();
                     Helicoptero helicoptero = new Helicoptero(idAeronave, marca, modelo, cor, capacidade);
-                    dataBase.update(helicoptero);
+                    try {
+                        System.out.println("Alterando Helicóptero!");
+                        helicoptero.update();
+                        System.out.println("Alteração concluída com Sucesso!");
+                        System.out.println("--------------------------------------------------");
+                    } catch (SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+                    opcao = scann.nextInt();
+                    if (opcao == 21) {
+                        main(null);
+                    } else {
+                        System.out.println("Sair!");
+                    }
                     break;
                 case "J":
                     System.out.println("Digite o id da Aeronave: ");
@@ -332,7 +599,23 @@ public class Gerenciamento {
                     System.out.println("Digite a velocidade do Jato: ");
                     int velocidade = scann.nextInt();
                     Jato jato = new Jato(idAeronave, marca, modelo, cor, velocidade);
-                    dataBase.update(jato);
+                    try {
+                        System.out.println("Alterando Jato!");
+                        jato.update();
+                        System.out.println("Alteração concluída com Sucesso!");
+                        System.out.println("--------------------------------------------------");
+                    } catch (SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+                    opcao = scann.nextInt();
+                    if (opcao == 21) {
+                        main(null);
+                    } else {
+                        System.out.println("Sair!");
+                    }
                     break;
                 default:
                     System.out.println("Opção inválida!");
@@ -349,7 +632,23 @@ public class Gerenciamento {
             System.out.println("Digite o id da Aeronave: ");
             int idAeronave = scann.nextInt();
             Hangar hangar = new Hangar(idHangar, local, idAeronave);
-            dataBase.update(hangar);
+            try {
+                System.out.println("Alterando Hangar!");
+                hangar.update();
+                System.out.println("Alteração concluída com Sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
         public static void alterarPista(Scanner scann) {
@@ -359,7 +658,23 @@ public class Gerenciamento {
             System.out.println("Digite o numero da Pista: ");
             String numero = scann.next();
             Pista pista = new Pista(idPista, numero);
-            dataBase.update(pista);
+            try {
+                System.out.println("Alterando Pista!");
+                pista.update();
+                System.out.println("Alteração concluída com Sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
         public static void alterarVoo(Scanner scann) {
@@ -387,43 +702,206 @@ public class Gerenciamento {
             System.out.println("Digite o id da Pista: ");
             int idPista = scann.nextInt();
             Voo voo = new Voo(idVoo, numero, data, hora, origem, destino, piloto, copiloto, observacao, idPista, idAeronave);
-            dataBase.update(voo);
+            try {
+                System.out.println("Alterando Voo!");
+                voo.update();
+                System.out.println("Alteração concluída com Sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
         public static void excluirCompanhia(Scanner scann) {
-            System.out.println("Excluir Companhia Aérea!");
-            System.out.println("Digite o id da Companhia Aérea: ");
+            System.out.println("Excluir Companhia!");
+            System.out.println("Digite o id da Companhia: ");
             int idCompanhia = scann.nextInt();
-            dataBase.delete(idCompanhia);
+            Companhia companhia = new Companhia();
+            try {
+                System.out.println("Excluindo Companhia!");
+                companhia.delete();
+                System.out.println("Exclusão concluída com Sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
         public static void excluirAeronave(Scanner scann) {
             System.out.println("Excluir Aeronave!");
-            System.out.println("Digite o id da Aeronave: ");
-            int idAeronave = scann.nextInt();
-            dataBase.delete(idAeronave);
+            System.out.println("Digite o tipo da Aeronave: ");
+            System.out.println("A - Avião");
+            System.out.println("H - Helicóptero");
+            System.out.println("J - Jato");
+            System.out.println("S - Sair");
+            String tipo = scann.next();
+            switch (tipo) {
+                case "A":
+                    System.out.println("Digite o id da Aeronave: ");
+                    int idAeronave = scann.nextInt();
+                    Aviao aviao = new Aviao();
+                    try {
+                        System.out.println("Excluindo Aeronave!");
+                        aviao.delete();
+                        System.out.println("Exclusão concluída com Sucesso!");
+                        System.out.println("--------------------------------------------------");
+                    } catch (SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+                    int opcao = scann.nextInt();
+                    if (opcao == 21) {
+                        main(null);
+                    } else {
+                        System.out.println("Sair!");
+                    }
+                    break;
+                case "H":
+                    System.out.println("Digite o id da Aeronave: ");
+                    idAeronave = scann.nextInt();
+                    Helicoptero helicoptero = new Helicoptero();
+                    try {
+                        System.out.println("Excluindo Aeronave!");
+                        helicoptero.delete();
+                        System.out.println("Helicóptero excluído com sucesso!");
+                        System.out.println("--------------------------------------------------");
+                    } catch (SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+                    opcao = scann.nextInt();
+                    if (opcao == 21) {
+                        main(null);
+                    } else {
+                        System.out.println("Sair!");
+                    }
+                    break;
+                case "J":
+                    System.out.println("Digite o id da Aeronave: ");
+                    idAeronave = scann.nextInt();
+                    Jato jato = new Jato();
+                    try {
+                        System.out.println("Excluindo Aeronave!");
+                        jato.delete();
+                        System.out.println("Jato excluído com sucesso!");
+                        System.out.println("--------------------------------------------------");
+                    } catch (SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+                    opcao = scann.nextInt();
+                    if (opcao == 21) {
+                        main(null);
+                    } else {
+                        System.out.println("Sair!");
+                    }
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
         }
+        
+        
+       
 
         public static void excluirHangar(Scanner scann) {
             System.out.println("Excluir Hangar!");
             System.out.println("Digite o id do Hangar: ");
             int idHangar = scann.nextInt();
-            dataBase.delete(idHangar);
+            Hangar hangar = new Hangar();
+            try {
+                System.out.println("Excluindo Hangar!");
+                hangar.delete();
+                System.out.println("Hangar excluído com sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
         public static void excluirPista(Scanner scann) {
             System.out.println("Excluir Pista!");
             System.out.println("Digite o id da Pista: ");
             int idPista = scann.nextInt();
-            dataBase.delete(idPista);
+            Pista pista = new Pista();
+            try {
+                System.out.println("Excluindo Pista!");
+                pista.delete();
+                System.out.println("Pista excluída com sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
         public static void excluirVoo(Scanner scann) {
             System.out.println("Excluir Voo!");
             System.out.println("Digite o id do Voo: ");
             int idVoo = scann.nextInt();
-            dataBase.delete(idVoo);
+            Voo voo = new Voo();
+            try {
+                System.out.println("Excluindo Voo!");
+                voo.delete();
+                System.out.println("Voo excluído com sucesso!");
+                System.out.println("--------------------------------------------------");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("--------------------------------------------------");
+            System.out.println("Digite 21 para realizar nova operação ou 22 para sair: ");
+            int opcao = scann.nextInt();
+            if (opcao == 21) {
+                main(null);
+            } else {
+                System.out.println("Sair!");
+            }
         }
 
-        
+        public void sair() {
+            System.out.println("Sair!");
+        }        
 }
