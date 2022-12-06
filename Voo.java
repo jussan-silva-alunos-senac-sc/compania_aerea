@@ -255,10 +255,10 @@ public class Voo extends DAO {
 
     //GetAll
     public static List<Voo> getAll() throws SQLException {
-        List<Voo> voos = new ArrayList<>();
         String sql = "SELECT * FROM voo";
         PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
+        List<Voo> voos = new ArrayList<>();
         while (rs.next()) {
             Voo voo = new Voo();
             voo.setId(rs.getInt("id_voo"));
