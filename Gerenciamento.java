@@ -35,7 +35,7 @@ public class Gerenciamento {
         int opcao = scann.nextInt();
         switch (opcao) {
             case 1:
-                System.out.println("Cadastrar Companhia Aérea!");
+                System.out.println("Digite o nome da Companhia Aérea: ");
                 cadastrarCompanhia(scann);
                 break;
             case 2:
@@ -135,7 +135,6 @@ public class Gerenciamento {
             String nome = scann.next();
             System.out.println("Digite o CNPJ da Companhia Aérea: ");
             String cnpj = scann.next();
-            
             Companhia companhia = new Companhia(nome, cnpj);
             try {
                 companhia.insert();
@@ -182,9 +181,7 @@ public class Gerenciamento {
                         String prefixo = scann.next();
                         if (prefixo.matches("[A-Z]{3}[0-9]{4}")) {
                             System.out.println("Prefixo válido!");
-                            Identificacao identificacao = new Identificacao( prefixo, prefixo);
-                            identificacao.setPrefixo(prefixo);
-
+                            Identificacao identificacao = new Identificacao(prefixo);
                         } else {
                             System.out.println("Prefixo inválido! Digite novamente: ");
                         }
@@ -197,7 +194,6 @@ public class Gerenciamento {
                     while (companhia == null) {
                         System.out.println("Companhia Aérea não encontrada!");
                         System.out.println("Digite um id de Companhia Aérea Válido: ");
-                        System.out.println("Digite o id da Companhia Aérea: ");
                         idCompanhia = scann.nextInt();
                     }
                     Aviao aviao = new Aviao(marca, modelo, prefixo, capacidade, companhia);
@@ -372,7 +368,10 @@ public class Gerenciamento {
             Companhia companhia = new Companhia();
             try {
                 System.out.println("Listando todas as Companhias cadastradas em nosso sistema!");
-                companhia.getAll();
+                List<Companhia> comps = companhia.getAll();
+                for(Companhia comp : comps){
+                System.out.println(comp.toString());
+                }
                 System.out.println("Listagem concluída com Sucesso!");
                 System.out.println("--------------------------------------------------");
             } catch (SQLException e) {

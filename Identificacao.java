@@ -6,30 +6,27 @@ import java.util.ArrayList;
 
 
 
-public class Identificacao <T,S extends Number> {
+public class Identificacao <T> {
     private T letras;
-    private S numeros;
+ 
 
     public Identificacao() {
     }
 
-    public Identificacao(T letras, S numeros) {
+    public Identificacao(T letras) {
         this.letras = letras;
-        this.numeros = numeros;
     }
 
-    void setPrefixo (T letras, S numeros) {
+    private void setPrefixo (T letras) {
         this.letras = letras;
-        this.numeros = numeros;
     }
 
-    public Identificacao<String, Integer> getPrefixo () {
-        return new Identificacao<String, Integer>();
+    public Identificacao<String> getPrefixo () {
+        return new Identificacao<String>();
     }
 
-    private void setNumero (T letras, S numeros) {
+    private void setNumero (T letras) {
         this.letras = letras;
-        this.numeros = numeros;
     }
     
     public String getNumero () {
@@ -44,7 +41,7 @@ public class Identificacao <T,S extends Number> {
 
     @Override
     public String toString() {
-        return letras + "-" + numeros;
+        return (String) letras;
     }
 
     public boolean equals(Object obj) {
@@ -53,9 +50,6 @@ public class Identificacao <T,S extends Number> {
         }
         final Identificacao other = (Identificacao) obj;
         if (this.letras != other.letras) {
-            return false;
-        }
-        if (this.numeros != other.numeros) {
             return false;
         }
         return true;
