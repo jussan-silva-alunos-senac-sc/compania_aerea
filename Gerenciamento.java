@@ -329,6 +329,7 @@ public class Gerenciamento {
                 } else { 
                     System.out.println("Numero da Pista inválido! Digite Novamente!");
                 }
+            }
             Pista pista = new Pista(identificacao);
             try {
                 System.out.println("Cadastrando Pista...");
@@ -364,6 +365,7 @@ public class Gerenciamento {
                 } else { 
                     System.out.println("Numero da Pista inválido! Digite Novamente!");
                 }
+            }
             System.out.println("Digite a data do Voo:  Ex: 2020-12-31");
             String data = scann.nextLine();
             System.out.println("Digite o horário do Voo: Ex: 12:00");
@@ -827,6 +829,7 @@ public class Gerenciamento {
                 } else { 
                     System.out.println("Numero da Pista inválido! Digite Novamente!");
                 }
+            }
             Pista pista = new Pista(idPista, identificacao);
             try {
                 System.out.println("Cadastrando Pista...");
@@ -851,8 +854,20 @@ public class Gerenciamento {
             System.out.println("Alterar Voo!");
             System.out.println("Digite o id do Voo: ");
             int idVoo = scann.nextInt();
-            System.out.println("Digite o numero do Voo: ");
-            String numero = scann.next();
+            boolean isNumeroInvalido = true;
+            Identificacao identificacao = new Identificacao<>();
+            while (isNumeroInvalido) {
+                System.out.println("Digite o numero da Pista:  Composto por 3 letras e 6 números. Ex: ABC123456 ");
+                String numero = scann.nextLine();
+                numero = numero.toUpperCase();
+                if (numero.matches("[A-Z]{3}[0-9]{6}")) {
+                    System.out.println("Numero da Pista válido!");
+                    identificacao = new Identificacao(numero);
+                    isNumeroInvalido = false;
+                } else { 
+                    System.out.println("Numero da Pista inválido! Digite Novamente!");
+                }
+            }
             System.out.println("Digite a data do Voo: ");
             String data = scann.next();
             System.out.println("Digite o horário do Voo: ");
@@ -871,7 +886,7 @@ public class Gerenciamento {
             int idAeronave = scann.nextInt();
             System.out.println("Digite o id da Pista: ");
             int idPista = scann.nextInt();
-            Voo voo = new Voo(idVoo, numero, data, hora, origem, destino, piloto, copiloto, observacao, idPista, idAeronave);
+            Voo voo = new Voo(idVoo, identificacao, data, hora, origem, destino, piloto, copiloto, observacao, idPista, idAeronave);
             try {
                 System.out.println("Alterando Voo!");
                 voo.update();
