@@ -51,7 +51,7 @@ public class Companhia {
 
     @Override
     public String toString() {
-        return "Companhia{" + "id=" + idCompanhia + ", nome=" + nome + ", cnpj=" + cnpj + '}';
+        return "Companhia >> " + " id = " + idCompanhia + ", nome=" + nome + ", cnpj=" + cnpj;
     }
 
     public boolean equals(Object obj) {
@@ -66,12 +66,18 @@ public class Companhia {
     }
 
     // Insert
+    // Declara função de inserção
     public void insert() throws SQLException {
+        // Declaração de variável sql e insere a query
         String sql = "INSERT INTO companhia (nome, cnpj) VALUES (?, ?)";
+        // Declaração de variável para preparar a query
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        // Insere os valores na query
         stmt.setString(1, this.nome);
         stmt.setString(2, this.cnpj);
+        // Executa a query
         stmt.execute();
+        // Fecha a conexão
         DAO.deleteConnect();
     }
 
@@ -88,25 +94,40 @@ public class Companhia {
 
     // Delete
     public void delete() throws SQLException {
+        // Declaração de variável sql e insere a query
         String sql = "DELETE FROM companhia WHERE id_companhia = ?";
+        // Declaração de variável para preparar a query
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        // Insere os valores na query
         stmt.setInt(1, this.idCompanhia);
+        // Executa a query
         stmt.execute();
+        // Fecha a conexão
         DAO.deleteConnect();
     }
 
     // getById
     public static Companhia getById(int idCompanhia) throws SQLException {
+        // Declaração de variável sql e insere a query
         String sql = "SELECT * FROM companhia WHERE id_companhia = ?";
+        // Declaração de variável para preparar a query
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        // Insere os valores na query
         stmt.setInt(1, idCompanhia);
+        // Executa a query
         ResultSet rs = stmt.executeQuery();
+        // Declaração de variável para armazenar o resultado
         Companhia companhia = null;
+        // Verifica se há resultado
         if (rs.next()) {
+            // Cria um objeto Companhia
             companhia = new Companhia();
+            // Insere os valores do resultado no objeto
             companhia.setId(rs.getInt("id_companhia"));
         }
+        // Fecha a conexão
         DAO.deleteConnect();
+        // Retorna o resultado
         return companhia;
     }
 
