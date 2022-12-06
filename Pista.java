@@ -96,7 +96,7 @@ public class Pista extends Identificacao {
     }
 
     // GetALL
-    public List<Pista> getAll() throws SQLException {
+    public static List<Pista> getAll() throws SQLException {
         String sql = "SELECT * FROM pista";
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();

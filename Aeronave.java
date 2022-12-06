@@ -65,20 +65,6 @@ public class Aeronave extends Identificacao {
         return true;
     }
 
-     // getById
-     public static Aeronave getById(int idAeronave) throws SQLException {
-        String sql = "SELECT * FROM aeronave WHERE id_aeronave = ?";
-        PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
-        stmt.setInt(1, getId());
-        ResultSet rs = stmt.executeQuery();
-        Aeronave aeronave = null;
-        if (rs.next()) {
-            aeronave = new Aeronave();
-            aeronave.setId(rs.getInt("id_aeronave"));
-        }
-        DAO.deleteConnect();
-        return aeronave;
-    }
 
 }
 

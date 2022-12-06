@@ -228,9 +228,10 @@ public class Gerenciamento {
                     System.out.println("Digite a cor do Helicóptero: ");
                     String cor = scann.next();
                     System.out.println("Digite a capacidade do Helicóptero: ");
-                    capacidade = scann.nextInt();
-                    Helicoptero helicoptero = new Helicoptero(marcah, modeloh, cor, capacidade);
+                    int capacidadeh = scann.nextInt();
+                    Helicoptero helicoptero = new Helicoptero(marcah, modeloh, cor, capacidadeh);
                     try {
+                        System.out.println("Cadastrando Helicóptero!");
                         helicoptero.insert();
                         System.out.println("Helicóptero cadastrado com sucesso!");
                         System.out.println("--------------------------------------------------");
@@ -285,7 +286,7 @@ public class Gerenciamento {
         public static void cadastrarHangar(Scanner scann) throws SQLException {
             System.out.println("Cadastrar Hangar!");
             System.out.println("Digite o nome do Hangar: ");
-            String local = scann.nextLine();
+            String local = scann.next();
             System.out.println("Digite o id do Avião: ");
             int idAviao = scann.nextInt();
             Aviao aviao = Aviao.getById(idAviao);
@@ -320,7 +321,7 @@ public class Gerenciamento {
             Identificacao identificacao = new Identificacao<>();
             while (isNumeroInvalido) {
                 System.out.println("Digite o numero da Pista:  Composto por 1 letra e 2 números. Ex: A01 ");
-                String numero = scann.nextLine();
+                String numero = scann.next();
                 numero = numero.toUpperCase();
                 if (numero.matches("[A-Z]{1}[0-9]{2}")) {
                     System.out.println("Numero da Pista válido!");
@@ -356,7 +357,7 @@ public class Gerenciamento {
             Identificacao identificacao = new Identificacao<>();
             while (isNumeroInvalido) {
                 System.out.println("Digite o numero da Pista:  Composto por 3 letras e 6 números. Ex: ABC123456 ");
-                String numero = scann.nextLine();
+                String numero = scann.next();
                 numero = numero.toUpperCase();
                 if (numero.matches("[A-Z]{3}[0-9]{6}")) {
                     System.out.println("Numero da Pista válido!");
@@ -367,19 +368,31 @@ public class Gerenciamento {
                 }
             }
             System.out.println("Digite a data do Voo:  Ex: 2020-12-31");
-            String data = scann.nextLine();
+            String data = scann.next();
             System.out.println("Digite o horário do Voo: Ex: 12:00");
-            String hora = scann.nextLine();
+            String hora = scann.next();
             System.out.println("Digite a origem do Voo: ");
-            String origem = scann.nextLine();
+            String origem = scann.next();
+            origem =  origem.toUpperCase();
+            if (origem.matches("[A-Z]{3}")) {
+                System.out.println("Origem válida!");
+            } else { 
+                System.out.println("Origem inválido! Digite Novamente!");
+            }
             System.out.println("Digite o destino do Voo: ");
-            String destino = scann.nextLine();
+            String destino = scann.next();
+            destino = destino.toUpperCase();
+            if (destino.matches("[A-Z]{3}")) {
+                System.out.println("Origem válida!");
+            } else { 
+                System.out.println("Origem inválido! Digite Novamente!");
+            }
             System.out.println("Digite o nome do Piloto: ");
-            String piloto = scann.nextLine();
+            String piloto = scann.next();
             System.out.println("Digite o nome do Copiloto: ");
-            String copiloto = scann.nextLine();
+            String copiloto = scann.next();
             System.out.println("Digite a observação do Voo: ");
-            String observacao = scann.nextLine();
+            String observacao = scann.next();
             System.out.println("Digite o id da Pista: ");
             int idPista = scann.nextInt();
             Pista pista = Pista.getById(idPista);
@@ -392,13 +405,33 @@ public class Gerenciamento {
             
             System.out.println("Digite o id da Aeronave: ");
             int idAeronave = scann.nextInt();
-            Aeronave aeronave = Aeronave.getById(idAeronave);
-            while (aeronave == null) {
-                System.out.println("Aeronave não encontrada!");
-                System.out.println("Digite um id de Aeronave Válido: ");
-                idAeronave = scann.nextInt();
+            boolean isIdAeronaveInvalido = true;
+            while (isIdAeronaveInvalido) {
+                if (idAeronave > 0) {
+                    Aviao aviao = Aviao.getById(idAeronave);
+                    if (aviao != null) {
+                        System.out.println("Aeronave é um Avião!");
+                        System.out.println(aviao.toString());
+                    } else {
+                        Helicoptero helicoptero = Helicoptero.getById(idAeronave);
+                        if (helicoptero != null) {
+                            System.out.println("Aeronave é um Helicóptero!");
+                            System.out.println(helicoptero.toString());
+                        } else {
+                            Jato jato = Jato.getById(idAeronave);
+                            if (jato != null) {
+                                System.out.println("Aeronave é um Jato!");
+                                System.out.println(jato.toString());
+                            } else {
+                                System.out.println("Aeronave não encontrada!");
+                                System.out.println("Digite um id de Aeronave Válido: ");
+                                idAeronave = scann.nextInt();
+                            }
+                        }
+                    }
+                }
+                isIdAeronaveInvalido = false;
             }
-            System.out.println(aeronave.toString());
 
             Voo voo = new Voo(identificacao, data, hora, origem, destino, piloto, copiloto, observacao, idPista, idAeronave);
             try {
@@ -450,7 +483,7 @@ public class Gerenciamento {
             System.out.println("H - Helicóptero!");
             System.out.println("J - Jato!");
             Scanner scann = new Scanner(System.in);
-            String opcao = scann.nextLine();
+            String opcao = scann.next();
             opcao = opcao.toUpperCase();
             switch (opcao) {
                 case "A":
@@ -589,11 +622,11 @@ public class Gerenciamento {
                 System.out.println("Listagem concluída com Sucesso!");
                 System.out.println("Deseja exportar essa lista em um arquivo de texto? (S/N)");
                 Scanner scann = new Scanner(System.in);
-                String opcao = scann.nextLine();
+                String opcao = scann.next();
                 opcao = opcao.toUpperCase();
                 if (opcao.equals("S")) {
                     System.out.println("Digite o nome do arquivo: ");
-                    String nomeArquivo = scann.nextLine();
+                    String nomeArquivo = scann.next();
                     nomeArquivo = nomeArquivo + ".txt";
                     File arquivo = new File(nomeArquivo);
                     FileWriter fw = new FileWriter(arquivo);
@@ -820,7 +853,7 @@ public class Gerenciamento {
             Identificacao identificacao = new Identificacao<>();
             while (isNumeroInvalido) {
                 System.out.println("Digite o numero da Pista:  Composto por 1 letra e 2 números. Ex: A01 ");
-                String numero = scann.nextLine();
+                String numero = scann.next();
                 numero = numero.toUpperCase();
                 if (numero.matches("[A-Z]{1}[0-9]{2}")) {
                     System.out.println("Numero da Pista válido!");
@@ -858,7 +891,7 @@ public class Gerenciamento {
             Identificacao identificacao = new Identificacao<>();
             while (isNumeroInvalido) {
                 System.out.println("Digite o numero da Pista:  Composto por 3 letras e 6 números. Ex: ABC123456 ");
-                String numero = scann.nextLine();
+                String numero = scann.next();
                 numero = numero.toUpperCase();
                 if (numero.matches("[A-Z]{3}[0-9]{6}")) {
                     System.out.println("Numero da Pista válido!");

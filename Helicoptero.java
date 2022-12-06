@@ -10,21 +10,21 @@ import java.util.List;
 
 public class Helicoptero extends Aeronave {
     private String cor;
-    private int capacidade;
+    private int capacidadeh;
 
     Helicoptero() {
     }
 
-    Helicoptero(int id, String marca, String modelo, String cor, int capacidade) {
+    Helicoptero(int id, String marca, String modelo, String cor, int capacidadeh) {
         super(id, marca, modelo);
         this.cor = cor;
-        this.capacidade = capacidade;
+        this.capacidadeh = capacidadeh;
     }
 
-    Helicoptero(String marca, String modelo, String cor, int capacidade) {
+    Helicoptero(String marca, String modelo, String cor, int capacidadeh) {
         super(marca, modelo);
         this.cor = cor;
-        this.capacidade = capacidade;
+        this.capacidadeh = capacidadeh;
     }
 
     public String getCor() {
@@ -35,39 +35,40 @@ public class Helicoptero extends Aeronave {
         this.cor = cor;
     }
 
-    public int getCapacidade() {
-        return capacidade;
+    public int getcapacidadeh() {
+        return capacidadeh;
     }
 
-    public void setCapacidade(int capacidade) {
-        this.capacidade = capacidade;
+    public void setcapacidadeh(int capacidadeh) {
+        this.capacidadeh = capacidadeh;
     }
 
     @Override
     public String toString() {
-        return "Helicoptero{" + "cor=" + cor + ", capacidade=" + capacidade + '}';
+        return "Helicoptero{" + "cor=" + cor + ", capacidadeh=" + capacidadeh + '}';
     }
 
     //Insert
     public void insert() throws SQLException {
-            String sql = "INSERT INTO helicoptero (marca, modelo, cor, capacidade) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO helicoptero (marca, modelo, cor, capacidadeh) VALUES (?, ?, ?, ?)";
             PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
-            stmt.setString(1, getMarca());
-            stmt.setString(2, getModelo());
-            stmt.setString(3, getCor());
-            stmt.setInt(4, getCapacidade());
+            stmt.setString(1, this.getMarca());
+            stmt.setString(2, this.getModelo());
+            stmt.setString(3, this.getCor());
+            stmt.setInt(4, getcapacidadeh());
+            
             stmt.execute();
             DAO.deleteConnect();
     }
 
     // Update
     public void update() throws SQLException {
-            String sql = "UPDATE helicoptero SET marca = ?, modelo = ?, cor = ?, capacidade = ? WHERE id_helicoptero = ?";
+            String sql = "UPDATE helicoptero SET marca = ?, modelo = ?, cor = ?, capacidadeh = ? WHERE id_helicoptero = ?";
             PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
             stmt.setString(1, getMarca());
             stmt.setString(2, getModelo());
             stmt.setString(3, getCor());
-            stmt.setInt(4, getCapacidade());
+            stmt.setInt(4, getcapacidadeh());
             stmt.setInt(5, getId());
             stmt.execute();
             DAO.deleteConnect();
@@ -109,7 +110,7 @@ public class Helicoptero extends Aeronave {
                 helicoptero.setMarca(rs.getString("marca"));
                 helicoptero.setModelo(rs.getString("modelo"));
                 helicoptero.setCor(rs.getString("cor"));
-                helicoptero.setCapacidade(rs.getInt("capacidade"));
+                helicoptero.setcapacidadeh(rs.getInt("capacidadeh"));
                 helicopteros.add(helicoptero);
             }
             DAO.deleteConnect();
