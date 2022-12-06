@@ -133,18 +133,28 @@ public class Companhia {
 
     // GetALL
     public static List<Companhia> getAll() throws SQLException {
+        // Declaração de variável sql e insere a query
         String sql = "SELECT * FROM companhia";
+        // Declaração de variável para preparar a query
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        // Executa a query
         ResultSet rs = stmt.executeQuery();
+        // Declaração de variável para armazenar o resultado
         List<Companhia> companhias = new ArrayList<>();
+        // Verifica se há resultado
         while (rs.next()) {
+            // Cria um objeto Companhia
             Companhia companhia = new Companhia();
+            // Insere os valores do resultado no objeto
             companhia.setId(rs.getInt("id_companhia"));
             companhia.setNome(rs.getString("nome"));
             companhia.setCnpj(rs.getString("cnpj"));
+            // Insere o objeto na lista
             companhias.add(companhia);
         }
+        // Fecha a conexão
         DAO.deleteConnect();
+        // Retorna o resultado
         return companhias;
     }
 }

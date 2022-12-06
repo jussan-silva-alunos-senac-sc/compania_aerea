@@ -3,9 +3,12 @@
 //------------------------------------------------
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mysql.cj.xdevapi.Result;
 
 public class Jato extends Aeronave {
     private String cor;
@@ -50,57 +53,68 @@ public class Jato extends Aeronave {
     //Insert
     public void insert() throws SQLException {
         String sql = "INSERT INTO jato (marca, modelo, cor, velocidade) VALUES (?, ?, ?, ?)";
-        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-        ps.setString(1, this.getMarca());
-        ps.setString(2, this.getModelo());
-        ps.setString(3, this.getCor());
-        ps.setInt(4, this.getVelocidade());
-        ps.execute();
+        PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        stmt.setString(1, this.getMarca());
+        stmt.setString(2, this.getModelo());
+        stmt.setString(3, this.cor);
+        stmt.setInt(4, this.velocidade);
+        stmt.execute();
+        DAO.deleteConnect();
     }
 
     // Update
     public void update() throws SQLException {
         String sql = "UPDATE jato SET marca = ?, modelo = ?, cor = ?, velocidade = ? WHERE id_jato = ?";
-        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-        ps.setString(1, this.getMarca());
-        ps.setString(2, this.getModelo());
-        ps.setString(3, this.getCor());
-        ps.setInt(4, this.getVelocidade());
-        ps.setInt(5, this.getId());
-        ps.execute();
+        PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        stmt.setString(1, this.getMarca());
+        stmt.setString(2, this.getModelo());
+        stmt.setString(3, this.cor);
+        stmt.setInt(4, this.velocidade);
+        stmt.setInt(5, this.getId());
+        stmt.execute();
+        DAO.deleteConnect();
     }
 
     // Delete
     public void delete() throws SQLException {
         String sql = "DELETE FROM jato WHERE id_jato = ?";
-        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-        ps.setInt(1, this.getId());
-        ps.execute();
+        PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        stmt.setInt(1, this.getId());
+        stmt.execute();
+        DAO.deleteConnect();
     }
 
     // getById
-    public void getById(int id) {
-        try {
+    public static Jato getById(int id) throws SQLException {
             String sql = "SELECT * FROM jato WHERE id_jato = ?";
-            PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.execute();
-        } catch (SQLException ex) {
-            System.out.println("Erro ao buscar Jato: " + ex.getMessage());
-        }
+            PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            Jato jato = null;
+            if (rs.next()) {
+                jato = new Jato();
+                jato.setId(rs.getInt("id_jato"));
+            }
+            DAO.deleteConnect();
+            return jato;
     }
 
     // GetALL
-    public List<Jato> getAll() {
-        List<Jato> lista = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM jato";
-            PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-            ps.execute();
-        } catch (SQLException ex) {
-            System.out.println("Erro ao buscar Jato: " + ex.getMessage());
+    public List<Jato> getAll() throws SQLException {
+        String sql = "SELECT * FROM jato";
+        PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        List<Jato> jatos = new ArrayList<>();
+        while (rs.next()) {
+            Jato jato = new Jato();
+            jato.setId(rs.getInt("id_jato"));
+            jato.setMarca(rs.getString("marca"));
+            jato.setModelo(rs.getString("modelo"));
+            jato.setCor(rs.getString("cor"));
+            jato.setVelocidade(rs.getInt("velocidade"));
+            jatos.add(jato);
         }
-        return lista;
+        DAO.deleteConnect();
+        return jatos;
     }
-    
 }

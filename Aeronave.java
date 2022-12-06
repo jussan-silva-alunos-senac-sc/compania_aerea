@@ -1,17 +1,21 @@
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 //Módulo destinado para as Aeronaves
 //Desenvolvido por Jussan
 //------------------------------------------------
 
-public abstract class Aeronave extends Identificacao {
-    private static int id;
+public class Aeronave extends Identificacao {
+    private static int idAeronave;
     private String marca;
     private String modelo;
 
     Aeronave() {
     }
 
-    Aeronave (int id, String marca, String modelo) {
-        this.id = id;
+    Aeronave (int idAeronave, String marca, String modelo) {
+        this.idAeronave = idAeronave;
         this.marca = marca;
         this.modelo = modelo;
     }
@@ -22,11 +26,11 @@ public abstract class Aeronave extends Identificacao {
     }
 
     public static int getId() {
-        return id;
+        return idAeronave;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int idAeronave) {
+        this.idAeronave = idAeronave;
     }
 
     public String getMarca() {
@@ -47,7 +51,7 @@ public abstract class Aeronave extends Identificacao {
 
     @Override
     public String toString() {
-        return "Aeronave{" + "id=" + id + ", marca=" + marca + ", modelo=" + modelo + '}';
+        return "Aeronave >> " + "id =" + idAeronave + ", marca = " + marca + ", modelo = " + modelo;
     }
 
     public boolean equals(Object obj) {
@@ -55,10 +59,27 @@ public abstract class Aeronave extends Identificacao {
             return false;
         }
         final Aeronave other = (Aeronave) obj;
-        if (this.id != other.id) {
+        if (this.idAeronave != other.idAeronave) {
             return false;
         }
         return true;
     }
 
+     // getById
+     public static Aeronave getById(int idAeronave) throws SQLException {
+        String sql = "SELECT * FROM aeronave WHERE id_aeronave = ?";
+        PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        stmt.setInt(1, getId());
+        ResultSet rs = stmt.executeQuery();
+        Aeronave aeronave = null;
+        if (rs.next()) {
+            aeronave = new Aeronave();
+            aeronave.setId(rs.getInt("id_aeronave"));
+        }
+        DAO.deleteConnect();
+        return aeronave;
+    }
+
 }
+
+

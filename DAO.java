@@ -3,7 +3,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.mariadb.jdbc.*;
 
-public class  DAO {
+public class  DAO extends Identificacao {
     public static Connection con = null;
     // URL de conexão com o banco de dados AWS
     public static final String URL = "jdbc:mariadb://awsjussan.cbrcalzcoxol.us-east-1.rds.amazonaws.com:3306/aeroporto";

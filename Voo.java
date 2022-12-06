@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Voo extends DAO {
-    private int id;
-    private String numero;
+    private static int idVoo;
+    private Identificacao<String> numero;
     private String data;
     private String hora;
     private String origem;
@@ -32,8 +32,8 @@ public class Voo extends DAO {
     Voo() {
     }
 
-    Voo(int id, String numero, String data, String hora, String origem, String destino, String piloto, String copiloto, String observacao, int idPista, int idAeronave) {
-        this.id = id;
+    Voo(int idVoo, Identificacao<String> numero, String data, String hora, String origem, String destino, String piloto, String copiloto, String observacao, int idPista, int idAeronave) {
+        this.idVoo = idVoo;
         this.numero = numero;
         this.data = data;
         this.hora = hora;
@@ -47,7 +47,7 @@ public class Voo extends DAO {
  
     }
 
-    Voo(String numero, String data, String hora, String origem, String destino, String piloto, String copiloto, String observacao, int idPista, int idAeronave) {
+    Voo(Identificacao<String> numero, String data, String hora, String origem, String destino, String piloto, String copiloto, String observacao, int idPista, int idAeronave) {
         this.numero = numero;
         this.data = data;
         this.hora = hora;
@@ -60,21 +60,18 @@ public class Voo extends DAO {
         this.idAeronave = idAeronave;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
+    public void setNumero(Identificacao<String> numero) {
         this.numero = numero;
     }
+
+    public static int getId() {
+        return idVoo;
+    }
+
+    public void setId(int idVoo) {
+        this.idVoo = idVoo;
+    }
+
 
     public String getData() {
         return data;
@@ -181,7 +178,7 @@ public class Voo extends DAO {
 
     @Override
     public String toString() {
-        return "Voo{" + "id=" + id + ", numero=" + numero + ", data=" + data + ", hora=" + hora + ", origem=" + origem + ", destino=" + destino + ", piloto=" + piloto + ", copiloto=" + copiloto + ", observacao=" + observacao + ", idPista=" + idPista + ", pista=" + pista + ", idAeronave=" + idAeronave + ", aviao=" + aviao + ", helicoptero=" + helicoptero + ", jato=" + jato + '}';
+        return "Voo >>" + " id = " + idVoo + ", numero = " + numero + ", data = " + data + ", hora = " + hora + ", origem = " + origem + ", destino = " + destino + ", piloto = " + piloto + ", copiloto = " + copiloto + ", observacao = " + observacao + ", idPista = " + idPista + ", pista = " + pista + ", idAeronave = " + idAeronave + ", aviao = " + aviao + ", helicoptero = " + helicoptero + ", jato = " + jato;
     }
 
     public boolean equals(Object obj) {
@@ -189,7 +186,7 @@ public class Voo extends DAO {
             return false;
         }
         final Voo other = (Voo) obj;
-        if (this.id != other.id) {
+        if (this.idVoo != other.idVoo) {
             return false;
         }
         return true;
@@ -198,82 +195,74 @@ public class Voo extends DAO {
     //Insert
     public void insert() throws SQLException {
         String sql = "INSERT INTO voo (numero, data, hora, origem, destino, piloto, copiloto, observacao, idPista, idAeronave) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-        ps.setString(1, numero);
-        ps.setString(2, data);
-        ps.setString(3, hora);
-        ps.setString(4, origem);
-        ps.setString(5, destino);
-        ps.setString(6, piloto);
-        ps.setString(7, copiloto);
-        ps.setString(8, observacao);
-        ps.setInt(9, idPista);
-        ps.setInt(10, idAeronave);
-        ps.executeUpdate();
-        ps.close();
+        PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        stmt.setString(1, this.numero.getNumero());
+        stmt.setString(2, this.getData());
+        stmt.setString(3, this.getHora());
+        stmt.setString(4, this.getOrigem());
+        stmt.setString(5, this.getDestino());
+        stmt.setString(6, this.getPiloto());
+        stmt.setString(7, this.getCopiloto());
+        stmt.setString(8, this.getObservacao());
+        stmt.setInt(9, this.pista.getId());
+        stmt.setInt(10, this.Aeronave.getId());
+        stmt.execute();
+        DAO.deleteConnect();
     }
 
     //Update
     public void update() throws SQLException {
-        String sql = "UPDATE voo SET numero = ?, data = ?, hora = ?, origem = ?, destino = ?, piloto = ?, copiloto = ?, observacao = ?, idPista = ?, idAeronave = ? WHERE id = ?";
-        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-        ps.setString(1, numero);
-        ps.setString(2, data);
-        ps.setString(3, hora);
-        ps.setString(4, origem);
-        ps.setString(5, destino);
-        ps.setString(6, piloto);
-        ps.setString(7, copiloto);
-        ps.setString(8, observacao);
-        ps.setInt(9, idPista);
-        ps.setInt(10, idAeronave);
-        ps.setInt(11, id);
-        ps.executeUpdate();
-        ps.close();
+        String sql = "UPDATE voo SET numero = ?, data = ?, hora = ?, origem = ?, destino = ?, piloto = ?, copiloto = ?, observacao = ?, idPista = ?, idAeronave = ? WHERE id_voo = ?";
+        PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        stmt.setString(1, this.numero.getNumero());
+        stmt.setString(2, this.getData());
+        stmt.setString(3, this.getHora());
+        stmt.setString(4, this.getOrigem());
+        stmt.setString(5, this.getDestino());
+        stmt.setString(6, this.getPiloto());
+        stmt.setString(7, this.getCopiloto());
+        stmt.setString(8, this.getObservacao());
+        stmt.setInt(9, this.pista.getId());
+        stmt.setInt(10, this.Aeronave.getId());
+        stmt.setInt(11, this.getId());
+        stmt.execute();
+        DAO.deleteConnect();
     }
 
     //Delete
     public void delete() throws SQLException {
-        String sql = "DELETE FROM voo WHERE id = ?";
-        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-        ps.setInt(1, id);
-        ps.executeUpdate();
-        ps.close();
+        String sql = "DELETE FROM voo WHERE id_voo = ?";
+        PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        stmt.setInt(1, getId());
+        stmt.execute();
+        DAO.deleteConnect();
     }
 
     //GetById
-    public void getById(int id) throws SQLException {
-        String sql = "SELECT * FROM voo WHERE id = ?";
-        PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            this.id = rs.getInt("id");
-            this.numero = rs.getString("numero");
-            this.data = rs.getString("data");
-            this.hora = rs.getString("hora");
-            this.origem = rs.getString("origem");
-            this.destino = rs.getString("destino");
-            this.piloto = rs.getString("piloto");
-            this.copiloto = rs.getString("copiloto");
-            this.observacao = rs.getString("observacao");
-            this.idPista = rs.getInt("idPista");
-            this.idAeronave = rs.getInt("idAeronave");
+    public static Voo getById(int idvoo) throws SQLException {
+        String sql = "SELECT * FROM voo WHERE id_voo = ?";
+        PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+        stmt.setInt(1, getId());
+        ResultSet rs = stmt.executeQuery();
+        Voo voo = null;
+        while (rs.next()) {
+            voo = new Voo();
+            voo.setId(rs.getInt("id_voo"));
         }
-        rs.close();
-        ps.close();
+        DAO.deleteConnect();
+        return voo;
     }
 
     //GetAll
     public static List<Voo> getAll() throws SQLException {
-        List<Voo> lista = new ArrayList<Voo>();
+        List<Voo> voos = new ArrayList<>();
         String sql = "SELECT * FROM voo";
         PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             Voo voo = new Voo();
-            voo.setId(rs.getInt("id"));
-            voo.setNumero(rs.getString("numero"));
+            voo.setId(rs.getInt("id_voo"));
+            voo.setNumero(new Identificacao<String>(rs.getString("numero")));
             voo.setData(rs.getString("data"));
             voo.setHora(rs.getString("hora"));
             voo.setOrigem(rs.getString("origem"));
@@ -281,12 +270,11 @@ public class Voo extends DAO {
             voo.setPiloto(rs.getString("piloto"));
             voo.setCopiloto(rs.getString("copiloto"));
             voo.setObservacao(rs.getString("observacao"));
-            voo.setIdPista(rs.getInt("idPista"));
-            voo.setIdAeronave(rs.getInt("idAeronave"));
-            lista.add(voo);
+            voo.setIdPista(rs.getInt("id_pista"));
+            voo.setIdAeronave(rs.getInt("id_aeronave"));
+            voos.add(voo);
         }
-        rs.close();
-        ps.close();
-        return lista;
+        DAO.deleteConnect();
+        return voos;
     }
 }

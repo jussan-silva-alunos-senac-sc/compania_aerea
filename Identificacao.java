@@ -4,12 +4,10 @@ import java.util.ArrayList;
 //Desenvolvido por Jussan
 //------------------------------------------------
 
-
-
 public class Identificacao <T> {
+    
     private T letras;
  
-
     public Identificacao() {
     }
 
@@ -17,20 +15,8 @@ public class Identificacao <T> {
         this.letras = letras;
     }
 
-    private void setPrefixo (T letras) {
-        this.letras = letras;
-    }
-
-    public Identificacao<String> getPrefixo () {
-        return new Identificacao<String>();
-    }
-
-    private void setNumero (T letras) {
-        this.letras = letras;
-    }
-    
     public String getNumero () {
-        return toString();
+        return (String) this.letras;
     }
     
     public static void  lista(ArrayList<Identificacao> lista) {

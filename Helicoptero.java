@@ -49,90 +49,71 @@ public class Helicoptero extends Aeronave {
     }
 
     //Insert
-    public void insert() {
-        try {
+    public void insert() throws SQLException {
             String sql = "INSERT INTO helicoptero (marca, modelo, cor, capacidade) VALUES (?, ?, ?, ?)";
-            PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-            ps.setString(1, getMarca());
-            ps.setString(2, getModelo());
-            ps.setString(3, getCor());
-            ps.setInt(4, getCapacidade());
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            System.out.println("Erro ao inserir Helicoptero: " + e.getMessage());
-        }
+            PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+            stmt.setString(1, getMarca());
+            stmt.setString(2, getModelo());
+            stmt.setString(3, getCor());
+            stmt.setInt(4, getCapacidade());
+            stmt.execute();
+            DAO.deleteConnect();
     }
 
     // Update
-    public void update() {
-        try {
+    public void update() throws SQLException {
             String sql = "UPDATE helicoptero SET marca = ?, modelo = ?, cor = ?, capacidade = ? WHERE id_helicoptero = ?";
-            PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-            ps.setString(1, getMarca());
-            ps.setString(2, getModelo());
-            ps.setString(3, getCor());
-            ps.setInt(4, getCapacidade());
-            ps.setInt(5, getId());
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            System.out.println("Erro ao atualizar Helicoptero: " + e.getMessage());
-        }
+            PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+            stmt.setString(1, getMarca());
+            stmt.setString(2, getModelo());
+            stmt.setString(3, getCor());
+            stmt.setInt(4, getCapacidade());
+            stmt.setInt(5, getId());
+            stmt.execute();
+            DAO.deleteConnect();
     }
 
     // Delete
-    public void delete() {
-        try {
-            String sql = "DELETE FROM helicoptero WHERE helicoptero = ?";
-            PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-            ps.setInt(1, getId());
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            System.out.println("Erro ao deletar Helicoptero: " + e.getMessage());
-        }
+    public void delete() throws SQLException {
+            String sql = "DELETE FROM helicoptero WHERE id_helicoptero = ?";
+            PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+            stmt.setInt(1, getId());
+            stmt.execute();
+            DAO.deleteConnect();
     }
 
     // getById
-    public Helicoptero getById(int id) {
-        try {
+    public static Helicoptero getById(int id) throws SQLException {
             String sql = "SELECT * FROM helicoptero WHERE id_helicoptero = ?";
-            PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            Helicoptero helicoptero = null;
             if (rs.next()) {
-                Helicoptero h = new Helicoptero();
-                h.setId(rs.getInt("id_helicoptero"));
-                return h;
+                helicoptero = new Helicoptero();
+                helicoptero.setId(rs.getInt("id_helicoptero"));
             }
-            ps.close();
-        } catch (SQLException e) {
-            System.out.println("Erro ao buscar Helicoptero: " + e.getMessage());
-        }
-        return null;
+            DAO.deleteConnect();
+            return helicoptero;
     }
 
     // GetALL
-    public List<Helicoptero> getAll() {
-        List<Helicoptero> lista = new ArrayList<>();
-        try {
+    public List<Helicoptero> getAll() throws SQLException {
             String sql = "SELECT * FROM helicoptero";
-            PreparedStatement ps = DAO.getConnect().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            List<Helicoptero> helicopteros = new ArrayList<>();
             while (rs.next()) {
-                Helicoptero h = new Helicoptero();
-                h.setId(rs.getInt("id_helicoptero"));
-                h.setMarca(rs.getString("marca"));
-                h.setModelo(rs.getString("modelo"));
-                h.setCor(rs.getString("cor"));
-                h.setCapacidade(rs.getInt("capacidade"));
-                lista.add(h);
+                Helicoptero helicoptero = new Helicoptero();
+                helicoptero.setId(rs.getInt("id_helicoptero"));
+                helicoptero.setMarca(rs.getString("marca"));
+                helicoptero.setModelo(rs.getString("modelo"));
+                helicoptero.setCor(rs.getString("cor"));
+                helicoptero.setCapacidade(rs.getInt("capacidade"));
+                helicopteros.add(helicoptero);
             }
-            ps.close();
-        } catch (SQLException e) {
-            System.out.println("Erro ao buscar todos os Helicopteros: " + e.getMessage());
-        }
-        return lista;
+            DAO.deleteConnect();
+            return helicopteros;
     }
+
 }
