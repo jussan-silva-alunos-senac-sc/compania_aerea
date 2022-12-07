@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Aviao extends Aeronave {
+    private static int id;
     private Identificacao<String> prefixo;
     private int capacidade;
     private int idCompanhia;
@@ -18,7 +19,7 @@ public class Aviao extends Aeronave {
     }
 
     Aviao(int id, String marca, String modelo, Identificacao<String> prefixo, int capacidade, Companhia companhia) {
-        super(id, marca, modelo);
+        super(marca, modelo);
         this.prefixo = prefixo;
         this.capacidade = capacidade;
         this.companhia = companhia;
@@ -34,6 +35,10 @@ public class Aviao extends Aeronave {
 
     public void setPrefixo(Identificacao<String> prefixo) {
         this.prefixo = prefixo;
+    }
+
+    public static int getidAviao() {
+        return id;
     }
 
     public int getCapacidade() {
@@ -62,7 +67,7 @@ public class Aviao extends Aeronave {
 
     @Override
     public String toString() {
-        return "Aviao >> " + " Id do Avião = " + Aeronave.getId() + ", prefixo = " + prefixo + ", capacidade = " + capacidade + ", idCompanhia = " + idCompanhia + ", companhia = " + companhia;
+        return "Aviao >> " + " Id do Avião = " + getidAviao() + ", prefixo = " + prefixo + ", capacidade = " + capacidade + ", idCompanhia = " + idCompanhia + ", companhia = " + companhia;
     }
 
 
@@ -88,7 +93,7 @@ public class Aviao extends Aeronave {
         stmt.setString(3, this.prefixo.getNumero());
         stmt.setInt(4, this.getCapacidade());
         stmt.setInt(5, this.getidCompanhia());
-        stmt.setInt(6, this.getId());
+        stmt.setInt(6, this.getidAviao());
         stmt.execute();
         DAO.deleteConnect();
     }
@@ -97,7 +102,7 @@ public class Aviao extends Aeronave {
     public void delete() throws SQLException {
         String sql = "DELETE FROM aviao WHERE id_aviao = ?";
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
-        stmt.setInt(1, this.getId());
+        stmt.setInt(1, this.getidAviao());
         stmt.execute();
         DAO.deleteConnect();
     }
@@ -106,7 +111,7 @@ public class Aviao extends Aeronave {
     public static Aviao getById(int id) throws SQLException {
         String sql = "SELECT * FROM aviao WHERE id_aviao = ?";
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
-        stmt.setInt(1, getId());
+        stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
         Aviao aviao = null;
         if (rs.next()) {

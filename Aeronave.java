@@ -25,7 +25,7 @@ public class Aeronave extends Identificacao {
         this.modelo = modelo;
     }
 
-    public static int getId() {
+    public int getId() {
         return idAeronave;
     }
 

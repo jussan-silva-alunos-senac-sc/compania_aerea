@@ -50,13 +50,12 @@ public class Helicoptero extends Aeronave {
 
     //Insert
     public void insert() throws SQLException {
-            String sql = "INSERT INTO helicoptero (marca, modelo, cor, capacidadeh) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO helicoptero (marca, modelo, cor, capacidade) VALUES (?, ?, ?, ?)";
             PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
             stmt.setString(1, this.getMarca());
             stmt.setString(2, this.getModelo());
             stmt.setString(3, this.getCor());
-            stmt.setInt(4, getcapacidadeh());
-            
+            stmt.setInt(4, this.getcapacidadeh());
             stmt.execute();
             DAO.deleteConnect();
     }

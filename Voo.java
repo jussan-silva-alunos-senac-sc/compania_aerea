@@ -194,7 +194,7 @@ public class Voo extends DAO {
 
     //Insert
     public void insert() throws SQLException {
-        String sql = "INSERT INTO voo (numero, data, hora, origem, destino, piloto, copiloto, observacao, idPista, idAeronave) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO voo (numero, data, hora, origem, destino, piloto, copiloto, observacao, id_pista, id_voo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
         stmt.setString(1, this.numero.getNumero());
         stmt.setString(2, this.getData());

@@ -11,21 +11,21 @@ import java.util.List;
 public class Hangar extends DAO {
     private int idHangar;
     private String local;
-    private int idAeronave;
+    private int idAviao;
     private Aviao aviao;
 
     Hangar() {
     }
 
-    Hangar(int idHangar, String local, int idAeronave) {
+    Hangar(int idHangar, String local, int idAviao) {
         this.idHangar = idHangar;
         this.local = local;
-        this.idAeronave = idAeronave;
+        this.idAviao = idAviao;
     }
 
-    Hangar(String local, int idAeronave) {
+    Hangar(String local, int idAviao) {
         this.local = local;
-        this.idAeronave = idAeronave;
+        this.idAviao = idAviao;
     }
 
     public int getId() {
@@ -44,29 +44,26 @@ public class Hangar extends DAO {
         this.local = local;
     }
 
-    public int getidAeronave() {
-        return idAeronave;
+    public int getidAviao() {
+        return idAviao;
     }
 
-    public void setidAeronave(int idAeronave) {
-        this.idAeronave = idAeronave;
+    public void setidAviao(int idAviao) {
+        this.idAviao = idAviao;
     }
 
     public Aviao getAviao() {
         return aviao;
     }
 
-    private int getidAviao() {
-		return idAeronave;
-	}
-
+ 
     public void setAviao(Aviao aviao) {
         this.aviao = aviao;
     }
 
     @Override
     public String toString() {
-        return "Hangar >>" + " id = " + idHangar + ", local = " + local + ", idAvião = " + idAeronave + ", aviao = " + aviao;
+        return "Hangar >>" + " id = " + idHangar + ", local = " + local + ", idAvião = " + idAviao + ", aviao = " + aviao;
     }
 
     public boolean equals(Object obj) {
@@ -82,17 +79,17 @@ public class Hangar extends DAO {
 
     //Insert
     public void insert() throws SQLException {
-        String sql = "INSERT INTO hangar (local, idAeronave) VALUES (?, ?)";
+        String sql = "INSERT INTO hangar (local, id_aviao) VALUES (?, ?)";
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
         stmt.setString(1, this.local);
-        stmt.setInt(2, this.aviao.getId());
+        stmt.setInt(2, this.getidAviao());
         stmt.execute();
         DAO.deleteConnect();
     }
 
     // Update
     public void update() throws SQLException {
-        String sql = "UPDATE hangar SET local = ?, idAeronave = ? WHERE id_hangar = ?";
+        String sql = "UPDATE hangar SET local = ?, id_aviao = ? WHERE id_hangar = ?";
         PreparedStatement stmt = getConnect().prepareStatement(sql);
         stmt.setString(1, this.getLocal());
         stmt.setInt(2, this.getidAviao());
@@ -135,7 +132,7 @@ public class Hangar extends DAO {
             Hangar hangar = new Hangar();
             hangar.setId(rs.getInt("id"));
             hangar.setLocal(rs.getString("local"));
-            hangar.setidAeronave(rs.getInt("idAeronave"));
+            hangar.setidAviao(rs.getInt("idAviao"));
             hangares.add(hangar);
         }
         DAO.deleteConnect();

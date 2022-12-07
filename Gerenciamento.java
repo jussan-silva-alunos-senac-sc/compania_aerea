@@ -162,7 +162,6 @@ public class Gerenciamento {
             System.out.println("A - Avião!");
             System.out.println("H - Helicóptero!");
             System.out.println("J - Jato!");
-            System.out.println("S - Sair!");
             String tipo = scann.next();
             tipo = tipo.toUpperCase();
             switch (tipo) {
@@ -356,10 +355,10 @@ public class Gerenciamento {
             boolean isNumeroInvalido = true;
             Identificacao identificacao = new Identificacao<>();
             while (isNumeroInvalido) {
-                System.out.println("Digite o numero da Pista:  Composto por 3 letras e 6 números. Ex: ABC123456 ");
+                System.out.println("Digite o numero da Pista:  Composto por 1 letras e 6 números. Ex: ABC123456 ");
                 String numero = scann.next();
                 numero = numero.toUpperCase();
-                if (numero.matches("[A-Z]{3}[0-9]{6}")) {
+                if (numero.matches("[A-Z]{1}[0-9]{2}")) {
                     System.out.println("Numero da Pista válido!");
                     identificacao = new Identificacao(numero);
                     isNumeroInvalido = false;
@@ -394,46 +393,46 @@ public class Gerenciamento {
             System.out.println("Digite a observação do Voo: ");
             String observacao = scann.next();
             System.out.println("Digite o id da Pista: ");
-            int idPista = scann.nextInt();
-            Pista pista = Pista.getById(idPista);
-            while (pista == null) {
-                System.out.println("Pista não encontrada!");
-                System.out.println("Digite um id de Pista Válido: ");
-                idPista = scann.nextInt();
-            }
+            Pista pista = null;
+            do {
+                int idPista = scann.nextInt();
+                pista = Pista.getById(idPista);
+                if (pista == null) {
+                    System.out.println("Pista não encontrada!");
+                    System.out.println("Digite um id de Pista Válido: ");
+                }
+            } while (pista == null);
             System.out.println(pista.toString());
             
             System.out.println("Digite o id da Aeronave: ");
-            int idAeronave = scann.nextInt();
-            boolean isIdAeronaveInvalido = true;
-            while (isIdAeronaveInvalido) {
+            Aeronave aeronave = null;
+            do {
+                int idAeronave = scann.nextInt();
                 if (idAeronave > 0) {
-                    Aviao aviao = Aviao.getById(idAeronave);
-                    if (aviao != null) {
+                    aeronave = Aviao.getById(idAeronave);
+                    if (aeronave != null) {
                         System.out.println("Aeronave é um Avião!");
-                        System.out.println(aviao.toString());
+                        System.out.println(aeronave.toString());
                     } else {
-                        Helicoptero helicoptero = Helicoptero.getById(idAeronave);
-                        if (helicoptero != null) {
+                        aeronave = Helicoptero.getById(idAeronave);
+                        if (aeronave != null) {
                             System.out.println("Aeronave é um Helicóptero!");
-                            System.out.println(helicoptero.toString());
+                            System.out.println(aeronave.toString());
                         } else {
-                            Jato jato = Jato.getById(idAeronave);
-                            if (jato != null) {
+                            aeronave = Jato.getById(idAeronave);
+                            if (aeronave != null) {
                                 System.out.println("Aeronave é um Jato!");
-                                System.out.println(jato.toString());
+                                System.out.println(aeronave.toString());
                             } else {
                                 System.out.println("Aeronave não encontrada!");
                                 System.out.println("Digite um id de Aeronave Válido: ");
-                                idAeronave = scann.nextInt();
                             }
                         }
                     }
                 }
-                isIdAeronaveInvalido = false;
-            }
+            } while (aeronave == null);
 
-            Voo voo = new Voo(identificacao, data, hora, origem, destino, piloto, copiloto, observacao, idPista, idAeronave);
+            Voo voo = new Voo(identificacao, data, hora, origem, destino, piloto, copiloto, observacao, pista.getId(), aeronave.getId());
             try {
                 voo.insert();
                 System.out.println("Voo cadastrado com sucesso!");

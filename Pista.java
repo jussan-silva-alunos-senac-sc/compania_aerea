@@ -54,7 +54,7 @@ public class Pista extends Identificacao {
     
     //Insert
     public void insert() throws SQLException {
-        String sql = "INSERT INTO Pista (numero) VALUES (?)";
+        String sql = "INSERT INTO pista (numero) VALUES (?)";
         PreparedStatement stmt = DAO.getConnect().prepareStatement(sql);
         stmt.setString(1, this.numero.getNumero());
         stmt.execute();
